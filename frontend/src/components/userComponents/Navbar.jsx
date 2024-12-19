@@ -71,7 +71,7 @@ export default function Navbar() {
                 alt="Your Company"
               />
               <span className="text-white font-bold ml-2 hidden sm:block">
-                Company
+                Bechbikhan
               </span>
             </Link>
           </div>
