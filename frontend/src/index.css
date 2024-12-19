@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.containerBox {
+  @apply max-w-[1500px] m-auto;
+}
