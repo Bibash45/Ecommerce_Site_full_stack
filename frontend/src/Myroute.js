@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Userlayout } from "./components/userComponents";
 import {
   Cartpage,
+  Confirmpage,
   EmailConfirmationpage,
   Homepage,
   Loginpage,
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/shipping",
         element: <Shippingpage />,
+      },
+      {
+        path: "/confirm",
+        element: <Confirmpage />,
       },
     ],
   },

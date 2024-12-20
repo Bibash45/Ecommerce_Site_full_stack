@@ -8,7 +8,7 @@ const initialState = localStorage.getItem("cart")
       cartItems: [],
       shippingAddress1: "",
       shippingAddress2: "",
-      shippingPrice: "",
+      shippingPrice: "10",
       city: "",
       zip: "",
       country: "",

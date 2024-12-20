@@ -8,6 +8,7 @@
     "@heroicons/react": "^2.2.0",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
+    "countries-list": "^3.1.1",
     "cra-template": "1.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -15,6 +16,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
+    "react-select": "^5.9.0",
     "react-toastify": "^11.0.0"
   },
   "scripts": {

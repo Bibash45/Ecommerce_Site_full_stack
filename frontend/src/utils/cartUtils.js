@@ -4,7 +4,7 @@ export const addDemicals = (num) => {
 
 export const updateCart = (state) => {
   // calculate shipping price (If order is over $100 then free, else $10 shipping)
-  state.shippingPrice = addDemicals(state.totalPrice > 10 ? 0 : 1);
+  state.shippingPrice = addDemicals(state.totalPrice > 200 ? 0 : 1);
 
   // calculate items price
   state.totalPrice =
