@@ -9,6 +9,7 @@ const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const orderRoute = require("./routes/orderRoute");
+const paymentRoute = require('./routes/paymentRoute')
 
 const app = express();
 
@@ -32,6 +33,10 @@ app.use("/api", userRoute);
 app.use("/api", categoryRoute);
 app.use("/api", productRoute);
 app.use("/api", orderRoute);
+
+// routes for esewa payment
+app.use('/api',paymentRoute)
+
 
 app.listen(port, (req, res) => {
   console.log(`Server is running on port: ${port}`);

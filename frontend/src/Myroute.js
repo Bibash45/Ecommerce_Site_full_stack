@@ -3,6 +3,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Userlayout } from "./components/userComponents";
 import {
   Cartpage,
+  CompletePaymentPage,
+  FailurePaymentPage,
   Confirmpage,
   EmailConfirmationpage,
   Homepage,
@@ -51,6 +53,14 @@ const router = createBrowserRouter([
       {
         path: "/confirm",
         element: <Confirmpage />,
+      },
+      {
+        path: "complete-payment",
+        element: <CompletePaymentPage />,
+      },
+      {
+        path: "failure-payment",
+        element: <FailurePaymentPage />,
       },
     ],
   },

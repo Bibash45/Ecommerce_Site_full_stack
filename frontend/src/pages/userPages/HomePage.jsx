@@ -6,6 +6,7 @@ const Homepage = () => {
     <div className="containerBox">
       <Carousel />
       <Product />
+     
     </div>
   );
 };

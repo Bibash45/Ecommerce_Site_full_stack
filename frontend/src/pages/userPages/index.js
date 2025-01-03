@@ -7,6 +7,8 @@ import EmailConfirmationpage from "./EmailConfirmationpage";
 import Cartpage from "./Cartpage";
 import Shippingpage from "./Shippingpage";
 import Confirmpage from "./Confirmpage";
+import CompletePaymentPage from "./CompletePaymentPage";
+import FailurePaymentPage from "./FailurePaymentPage";
 export {
   Homepage,
   Productpage,
@@ -17,4 +19,6 @@ export {
   Shippingpage,
   Cartpage,
   Confirmpage,
+  CompletePaymentPage,
+  FailurePaymentPage,
 };

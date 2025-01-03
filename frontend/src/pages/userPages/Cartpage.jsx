@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Cartpage = () => {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems, totalPrice } = useSelector((state) => state.cart);
 
   const handleQuantityChange = (item, change) => {
     const updatedQuantity = item.qty + change; // Calculate new quantity
@@ -30,23 +30,6 @@ const Cartpage = () => {
     }, 0);
   };
 
-  const calculateTotal = () => {
-    const itemTotal = cartItems.reduce((total, item) => {
-      return total + item.qty * item.product_price;
-    }, 0);
-
-    const deliveryCharge = 10;
-    const taxRate = 0.13;
-
-    // First, calculate the total before tax
-    const totalBeforeTax = itemTotal + deliveryCharge;
-
-    // Then, calculate the total after tax
-    const totalWithTax = totalBeforeTax * (1 + taxRate);
-
-    return totalWithTax.toFixed(2);
-  };
-
   if (cartItems.length === 0) {
     return (
       <div className="h-[70vh] ">
@@ -59,7 +42,7 @@ const Cartpage = () => {
   }
 
   return (
-    <section className="py-24 relative">
+    <section className="py-15 relative">
       <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
         <h2 className="title font-manrope font-bold text-4xl leading-10 mb-8 text-center text-black">
           Shopping Cart
@@ -91,7 +74,7 @@ const Cartpage = () => {
               <div className="flex items-center flex-col min-[550px]:flex-row gap-3 min-[550px]:gap-6 w-full max-xl:justify-center max-xl:max-w-xl max-xl:mx-auto">
                 <div className="img-box">
                   <img
-                    src={`http://localhost:5000/${product_image}`}
+                    src={`http://localhost:5000/${product_image[0]}`}
                     alt="product image"
                     className="xl:w-[140px] rounded-xl object-cover"
                   />
@@ -208,7 +191,7 @@ const Cartpage = () => {
               <span className="text-gray-400">(tax added) </span>Total Amount
             </p>
             <h6 className="font-manrope font-medium text-2xl leading-9 text-indigo-500">
-              ${calculateTotal()}
+              ${totalPrice}
             </h6>
           </div>
         </div>

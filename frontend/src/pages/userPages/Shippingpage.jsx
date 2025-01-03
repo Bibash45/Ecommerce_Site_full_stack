@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import { saveShippingAddress } from "../../features/cartSlice";
+import { toast } from "react-toastify";
 
 const countryCityMapping = {
   Nepal: {
@@ -22,6 +23,12 @@ const countryCityMapping = {
   },
 };
 
+const countryCodes = {
+  Nepal: "+977",
+  India: "+91",
+  Bangladesh: "+880",
+};
+
 const ShippingPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,6 +41,7 @@ const ShippingPage = () => {
     zip: cart.zip || "",
     phone: cart.phone || "",
     country: cart.country || "Nepal",
+    countryCode: cart.countryCode || "+977",
   });
 
   const countryOptions = Object.keys(countryCityMapping).map((country) => ({
@@ -59,6 +67,7 @@ const ShippingPage = () => {
       country: selectedOption.value,
       city: "",
       zip: "",
+      countryCode: countryCodes[selectedOption.value],
     }));
   };
 
@@ -72,8 +81,21 @@ const ShippingPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress(shippingData));
-    navigate("/confirm");
+    if (
+      !(
+        shippingData.shippingAddress1 &&
+        shippingData.shippingAddress2 &&
+        shippingData.city &&
+        shippingData.country &&
+        shippingData.phone
+      )
+    ) {
+      toast.error("Please fill all the fields");
+      // alert("Please fill all the fields");
+    } else {
+      dispatch(saveShippingAddress(shippingData));
+      navigate("/confirm");
+    }
   };
 
   useEffect(() => {
@@ -83,12 +105,13 @@ const ShippingPage = () => {
         country: cart.country,
         city: cart.city || "",
         zip: cart.zip || "",
+        countryCode: countryCodes[cart.country],
       }));
     }
   }, [cart]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
+    <div className="flex flex-col items-center justify-center  bg-gray-100 px-4 py-6">
       <form
         className="w-full max-w-lg bg-white p-6 rounded-lg shadow-md"
         onSubmit={handleSubmit}
@@ -171,15 +194,22 @@ const ShippingPage = () => {
           <label className="block text-sm font-medium text-gray-600 mb-2">
             Phone
           </label>
-          <input
-            type="tel"
-            name="phone"
-            onChange={handleInputChange}
-            value={shippingData.phone}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Enter phone number"
-            required
-          />
+          <div className="flex">
+            <input
+              value={shippingData.countryCode}
+              readOnly
+              className="w-20 px-4 py-2 border border-gray-300 rounded-md focus:outline-none bg-gray-100"
+            />
+            <input
+              type="tel"
+              name="phone"
+              onChange={handleInputChange}
+              value={shippingData.phone}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
         </div>
 
         <button
