@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
+import image1 from "../../assets/images/bann.jpg";
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [timer, setTimer] = useState(null);
 
-  const images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwbC44-yJiUkRLCBdbrSAJnJST9GrV70ma0Bfx4qkIOT_O4bPbOs1YPm3AGCRva1VDexA&usqp=CAU",
-    "https://thumbs.dreamstime.com/b/high-angle-mens-clothes-shot-men-s-winter-laid-out-dark-wood-floor-items-include-sweater-scarf-gloves-wool-socks-pants-47674621.jpg",
-    "https://www.shutterstock.com/image-photo/mens-casual-outfits-standing-over-260nw-515513494.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUmqu9upS5v5RnupV1MfTpAADd4LVLU4dHK88W4oOFGBq3uZ14kvNay04DV9V6Yd7Z11g&usqp=CAU",
-    "https://i5.walmartimages.com/seo/40-Garment-Bags-for-Travel-6-Packs-Suit-Bags-Hanging-Clothes-Bags-with-Zipper-and-Transparent-Window-for-Closet-Storage-Black_205bc644-4ccf-44da-a372-e75783d91d82.56bf954463289acc2f51afe76edd3fc0.jpeg",
-  ];
+  const images = [image1, image1, image1, image1, image1];
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -19,7 +14,7 @@ const Carousel = () => {
   const handlePrev = () => {
     setActiveIndex(
       (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    )
+    );
   };
 
   useEffect(() => {
@@ -68,7 +63,7 @@ const Carousel = () => {
       </div>
 
       {/* Slider Indicators */}
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+      <div className="hidden md:block flex absolute z-30  -translate-x-1/2   md:bottom-10 left-1/2 space-x-3 rtl:space-x-reverse opacity-30">
         {images.map((_, index) => (
           <button
             key={index}

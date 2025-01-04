@@ -21,7 +21,7 @@ const Topbar = () => {
       </div>
 
       {/* <!-- Navigation Links Section --> */}
-      <div className="flex justify-end gap-6 items-center text-sm md:text-base">
+      <div className="flex justify-end gap-4 md:gap-6 items-center text-sm md:text-sm lg:text-md">
         <p className="tracking-tighter text-[#735DA5] cursor-pointer hover:text-[#9b75c6] transition-colors">
           SAVE MORE ON APP
         </p>

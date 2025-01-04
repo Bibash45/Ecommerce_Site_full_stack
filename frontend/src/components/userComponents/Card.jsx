@@ -14,19 +14,19 @@ const Card = ({ name, description, price, image, productId }) => {
   return (
     <div
       onClick={handleCardClick}
-      className=" mx-auto mt-5 md:w-55 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800  shadow-md duration-300 hover:scale-95 hover:shadow-xl"
+      className=" mx-auto mt-5 md:w-55 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800  shadow-md duration-300  hover:shadow-xl"
     >
       <img
         src={imageUrl}
         alt="Product Image"
-        className="w-full h-48 object-cover object-center"
+        className="w-full h-48 object-cover object-center transform hover:scale-x-[-1]"
       />
       <div className="p-2">
         <h2 className=" text-lg font-medium dark:text-white text-gray-900">
           {name}
         </h2>
         <p className="mb-1 text-base dark:text-gray-300 text-gray-700">
-          {description}
+          {description.substring(0,29)}....
         </p>
         <div className="flex items-center">
           <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">

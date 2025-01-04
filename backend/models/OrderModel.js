@@ -41,6 +41,10 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: "pending",
     },
+    method: {
+      type: String,
+      required: true,
+    },
     totalPrice: {
       type: Number,
       required: true,
@@ -49,6 +53,10 @@ const orderSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+    },
+    delivered: {
+      type: Boolean,
+      default: false,
     },
   },
   {

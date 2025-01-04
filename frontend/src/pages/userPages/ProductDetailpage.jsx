@@ -50,7 +50,7 @@ const ProductDetailpage = () => {
   }
 
   return (
-    <>
+    <div className="containerBox bg-[rgb(255,255,255)]">
       {isHovered && (
         <div
           className="hidden md:block absolute top-[10%] right-[9%] w-[400px] h-[400px] lg:w-[700px]  lg:h-[600px] z-50 bg-cover bg-no-repeat "
@@ -66,7 +66,7 @@ const ProductDetailpage = () => {
           }}
         ></div>
       )}
-      <div className="bg-gray-100">
+      <div>
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-wrap -mx-4">
             {/* Product Images */}
@@ -106,7 +106,9 @@ const ProductDetailpage = () => {
               <h2 className="text-3xl font-bold mb-2">
                 {product.product_name}
               </h2>
-              <p className="text-gray-600 mb-1">category: {product.category.category_name}</p>
+              <p className="text-gray-600 mb-1">
+                category: {product.category.category_name}
+              </p>
               <div className="mb-4">
                 <span className="text-2xl font-bold mr-2">
                   ${product.product_price}
@@ -168,7 +170,7 @@ const ProductDetailpage = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

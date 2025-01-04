@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { Navigate, useNavigate } from "react-router-dom";
+import { clearCartItems } from "../../features/cartSlice";
+import { useOnCashOrderMutation } from "../../features/orderApiSlice";
 
 const Confirmpage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
-    cartItems,
-    shippingAddress1,
-    shippingAddress2,
-    shippingPrice,
-    city,
-    zip,
-    country,
-    phone,
-    totalPrice,
-  } = useSelector((state) => state.cart);
+    cartItems = [],
+    shippingAddress1 = "",
+    shippingAddress2 = "",
+    shippingPrice = "",
+    city = "",
+    zip = "",
+    country = "",
+    phone = "",
+    totalPrice = "",
+  } = useSelector((state) => state.cart || {});
 
-  const { token, user } = useSelector((state) => state.auth.userInfo);
+  const [loading, setLoading] = useState(false);
+
+  const { token = "", user = {} } = useSelector(
+    (state) => state.auth?.userInfo || {}
+  );
+
+  const [onCashOrder] = useOnCashOrderMutation();
 
   // const { userId } = userInfo;
 
@@ -100,6 +112,7 @@ const Confirmpage = () => {
 
         // Submit the form
         form.submit();
+        dispatch(clearCartItems());
       } else {
         alert("Payment initialization failed");
       }
@@ -107,6 +120,49 @@ const Confirmpage = () => {
       console.error("Payment initialization error:", error.message);
     }
   };
+
+  const OnCashPayment = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
+    try {
+      if (!orderDetails || !token) {
+        throw new Error("Invalid order details or token");
+      }
+  
+      // Call the mutation function provided by the hook
+      const result = await onCashOrder({ orderDetails, token }).unwrap();
+  
+      console.log("Order placed:", result);
+  
+      // Clear cart and notify user
+      dispatch(clearCartItems());
+      toast.success("Order placed successfully");
+  
+      navigate("/myorders"); // Redirect to "My Orders" page
+    } catch (error) {
+      console.error("Order placement failed:", error);
+      toast.error(
+        error?.data?.message || "Failed to place the order. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+  if (
+    !(token && user) &&
+    !(shippingAddress1,
+    shippingAddress2,
+    shippingPrice,
+    city,
+    zip,
+    country,
+    phone)
+  ) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row w-full mt-10 px-4 lg:px-16">
@@ -175,12 +231,20 @@ const Confirmpage = () => {
               <span className="text-gray-700">Total</span>
               <span className="text-gray-900">${totalPrice}</span>
             </div>
-            <button
-              className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
-              onClick={handlePayment}
-            >
-              Proceed to eSewa Payment
-            </button>
+            <div className="flex gap-8">
+              <button
+                className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+                onClick={handlePayment}
+              >
+                Proceed to eSewa Payment
+              </button>
+              <button
+                onClick={OnCashPayment}
+                className="w-full bg-slate-500 text-white py-2 rounded-md hover:bg-slate-600 transition"
+              >
+                {loading ? "Placing order...." : "Pay on cash"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

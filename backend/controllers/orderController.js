@@ -4,11 +4,24 @@ const Order = require("../models/OrderModel");
 
 // post order
 exports.postOrder = async (req, res) => {
+  console.log("hell from post order");
+
+  const {
+    orderItems,
+    shippingAddress1,
+    shippingAddress2,
+    city,
+    zip,
+    country,
+    phone,
+    user,
+    totalPrice,
+  } = req.body;
   let orderItemsIds = Promise.all(
-    req.body.orderItems.map(async (orderItem) => {
+    orderItems.map(async (orderItem) => {
       let newOrderItem = new OrderItem({
-        quantity: orderItem.quantity,
-        product: orderItem.product,
+        quantity: orderItem.qty,
+        product: orderItem._id,
       });
       newOrderItem = await newOrderItem.save();
       if (!newOrderItem) {
@@ -22,30 +35,17 @@ exports.postOrder = async (req, res) => {
 
   let orderItemIdsResolved = await orderItemsIds;
 
-  let totalAmount = await Promise.all(
-    orderItemIdsResolved.map(async (orderId) => {
-      let itemOrder = await OrderItem.findById(orderId).populate(
-        "product",
-        "product_price"
-      );
-
-      const total = itemOrder.quantity * itemOrder.product.product_price;
-      return total;
-    })
-  );
-
-  const TotalPrice = totalAmount.reduce((acc, item) => acc + item, 0);
-
   let order = await new Order({
     orderItems: orderItemIdsResolved,
-    shippingAddress1: req.body.shippingAddress1,
-    shippingAddress2: req.body.shippingAddress2,
-    city: req.body.city,
-    zip: req.body.zip,
-    country: req.body.country,
-    phone: req.body.phone,
-    totalPrice: TotalPrice,
-    user: req.body.user,
+    shippingAddress1,
+    shippingAddress2,
+    city,
+    zip,
+    method: "on cash",
+    country,
+    phone,
+    totalPrice,
+    user,
   });
   if (!order) {
     return res.status(400).json({
@@ -58,7 +58,7 @@ exports.postOrder = async (req, res) => {
   });
 };
 
-// orderlist
+//  orderlist
 exports.orderList = async (req, res) => {
   let order = await Order.find()
     .populate("user", "name")
@@ -83,19 +83,31 @@ exports.orderDetails = async (req, res) => {
 
 // order list of specific user
 exports.userOrders = async (req, res) => {
-  let userOrders = await Order.find({
-    user: req.params.id,
-  }).populate({
-    path: "orderItems",
-    populate: {
-      path: "product",
-      populate: "category",
-    },
-  });
-  if (!userOrders) {
-    return res.stauts(400).json({
-      error: "No orders found for this user",
+  try {
+    const userOrders = await Order.find({
+      user: req.params.id,
+      $or: [
+        { method: "on cash" }, // Orders where the method is "on cash"
+        { method: "esewa", status: "completed" }, // Orders where method is "esewa" and status is "completed"
+      ],
+    }).populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+        populate: "category",
+      },
+    });
+
+    if (!userOrders || userOrders.length === 0) {
+      return res.status(400).json({
+        error: "No orders found for this user",
+      });
+    }
+
+    return res.status(200).json(userOrders);
+  } catch (error) {
+    return res.status(500).json({
+      error: "An error occurred while fetching orders",
     });
   }
-  return res.status(200).json(userOrders);
 };

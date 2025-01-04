@@ -16,6 +16,7 @@ import {
 } from "./pages/userPages";
 import { Adminlayout } from "./components/adminComponents";
 import { AdminProductpage, Dashboardpage } from "./pages/adminPages";
+import MyOrders from "./pages/userPages/MyOrders";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/confirm",
         element: <Confirmpage />,
+      },
+      {
+        path: "/myorders",
+        element: <MyOrders />,
       },
       {
         path: "complete-payment",

@@ -48,7 +48,7 @@ export default function Navbar() {
   return (
     <Disclosure
       as="nav"
-      className="bg-[#735DA5] py-2 sticky top-0 z-50  shadow-lg shadow-[#D3C5E5]"
+      className="bg-[#735DA5] py-2 sticky top-0 z-50  shadow-md shadow-[#D3C5E5]"
     >
       {/* Navbar Container */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -82,8 +82,8 @@ export default function Navbar() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search..."
-                  className="block w-40 md:w-96 rounded-lg border-gray-300 px-3 py-3 pr-10 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="Search product here..."
+                  className="block w-40 md:w-96 rounded-lg border-gray-300 px-3 py-3 pr-10 shadow-sm focus:border-[#735DA5] focus:ring-[#735DA5] sm:text-sm"
                 />
                 <button
                   type="submit"
@@ -149,20 +149,20 @@ export default function Navbar() {
                           "block px-4 py-2 text-sm text-gray-700"
                         )}
                       >
-                        Your Profile
+                        Profile
                       </Link>
                     )}
                   </MenuItem>
                   <MenuItem>
                     {({ active }) => (
                       <Link
-                        to="/settings"
+                        to="/myorders"
                         className={`${classNames(
                           active ? "bg-gray-100" : "",
                           "block px-4 py-2 text-sm text-gray-700"
                         )} w-full`}
                       >
-                        Settings
+                        My orders
                       </Link>
                     )}
                   </MenuItem>

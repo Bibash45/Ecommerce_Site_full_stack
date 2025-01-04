@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Select from "react-select";
 import { saveShippingAddress } from "../../features/cartSlice";
@@ -33,6 +33,7 @@ const ShippingPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+   const { token='', user={} } = useSelector((state) => state.auth.userInfo || {});
 
   const [shippingData, setShippingData] = useState({
     shippingAddress1: cart.shippingAddress1 || "",
@@ -109,6 +110,14 @@ const ShippingPage = () => {
       }));
     }
   }, [cart]);
+
+
+  if (
+    !(token && user) 
+  ) {
+    return <Navigate to="/login" />;
+  }
+
 
   return (
     <div className="flex flex-col items-center justify-center  bg-gray-100 px-4 py-6">

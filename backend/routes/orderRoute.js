@@ -27,6 +27,6 @@ router
   .get(requireSignin, requireAdmin, orderDetails);
 
 // order list by userId
-router.route("/userorders/:id").get(requireSignin, requireAdmin, userOrders);
+router.route("/userorders/:id").get(requireSignin, userOrders);
 
 module.exports = router;

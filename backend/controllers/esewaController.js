@@ -62,6 +62,7 @@ const initializeEsewa = async (req, res) => {
       shippingAddress2: shippingAddress2,
       city: city,
       status: "pending",
+      method: "esewa",
       zip: zip,
       country: country,
       phone: phone,
@@ -159,7 +160,7 @@ const completeEsewa = async (req, res) => {
               <h1 class="text-3xl font-semibold text-gray-800 text-center mb-4">Payment Successful</h1>
               <p class="text-lg text-gray-600 text-center mb-6">Thank you for your order. Your payment has been successfully processed. You will receive an email confirmation shortly.</p>
               <div class="flex justify-center gap-4">
-                <a href="/" class="bg-green-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-green-700 transition duration-300">
+                <a href="${process.env.FRONTEND_URI}/" class="bg-green-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-green-700 transition duration-300">
                   Back to Home
                 </a>
                 <a href="/orders" class="bg-blue-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-blue-700 transition duration-300">
