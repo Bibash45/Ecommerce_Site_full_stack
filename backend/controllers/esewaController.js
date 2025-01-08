@@ -163,7 +163,7 @@ const completeEsewa = async (req, res) => {
                 <a href="${process.env.FRONTEND_URI}/" class="bg-green-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-green-700 transition duration-300">
                   Back to Home
                 </a>
-                <a href="/orders" class="bg-blue-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-blue-700 transition duration-300">
+                <a href="http://localhost:3000/myorders" class="bg-blue-600 text-white py-2 px-6 rounded-lg text-lg hover:bg-blue-700 transition duration-300">
                   View Orders
                 </a>
               </div>

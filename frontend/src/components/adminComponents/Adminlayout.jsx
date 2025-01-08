@@ -7,7 +7,6 @@ const Adminlayout = () => {
   return (
     <>
       <Header />
-      <Outlet />
       <Footer />
     </>
   );

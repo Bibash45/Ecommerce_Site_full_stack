@@ -33,7 +33,7 @@ const Cartpage = () => {
   if (cartItems.length === 0) {
     return (
       <div className="h-[70vh] containerBox">
-        <div className="text-center text-3xl py-16 text-gray-500 font-semibold bg-[#D3C5E5]">
+        <div className="text-center text-3xl py-10 text-gray-700 font-semibold bg-[#D3C5E5] rounded-lg shadow-lg p-8 max-w-2xl mx-auto mt-8">
           Please add product to the cart !!!
         </div>
         <Product />

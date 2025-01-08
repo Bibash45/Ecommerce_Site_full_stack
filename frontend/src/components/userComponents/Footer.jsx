@@ -3,147 +3,133 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <>
-      <hr className="mt-3 border-t-4 " />
+    <footer className="bg-gray-100  text-white-400 py-8 mt-4">
+      <div className="container mx-auto px-6 lg:px-12">
+        {/* Top Section */}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-20 border-b border-gray-300 pb-6 justify-around">
+          {/* Locations */}
+          <div>
+            <h6 className="text-xl font-semibold">Our Locations</h6>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <Link
+                  to="/nepal"
+                  className="hover:text-indigo-200 transition"
+                >
+                  Nepal
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/india"
+                  className="hover:text-indigo-200 transition"
+                >
+                  India
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/bangladesh"
+                  className="hover:text-indigo-200 transition"
+                >
+                  Bangladesh
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-      <footer className="bg-white text-white py-3 pb-7 px-4 font-sans tracking-wide flex justify-around flex-wrap">
-        <div className="text-center">
-          <h6 className="text-lg text-gray-500">International sites</h6>
-          <ul className="flex flex-wrap justify-center gap-x-4 gap-2  mt-5 mb-7">
-            <li>
-              <Link to="/jkld" className="text-gray-600">
-                Nepal
+          {/* Quick Links */}
+          <div>
+            <h6 className="text-xl font-semibold">Quick Links</h6>
+            <ul className="mt-4 space-y-2">
+              <li>
+                <Link
+                  to="/about"
+                  className="hover:text-indigo-200 transition"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/services"
+                  className="hover:text-indigo-200 transition"
+                >
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="hover:text-indigo-200 transition"
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Social Media */}
+          <div>
+            <h6 className="text-xl font-semibold">Follow Us</h6>
+            <div className="flex space-x-4 mt-4">
+              <Link to="#" className="hover:text-indigo-200 transition">
+                {/* Twitter Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M24 4.557c-.883.392-1.83.656-2.825.775a4.92 4.92 0 0 0 2.165-2.717 9.864 9.864 0 0 1-3.127 1.196 4.92 4.92 0 0 0-8.379 4.482A13.95 13.95 0 0 1 1.671 3.149a4.916 4.916 0 0 0 1.523 6.573A4.902 4.902 0 0 1 .964 9.17v.062a4.918 4.918 0 0 0 3.946 4.827 4.93 4.93 0 0 1-2.212.084 4.924 4.924 0 0 0 4.6 3.42A9.867 9.867 0 0 1 0 19.54a13.94 13.94 0 0 0 7.548 2.212c9.058 0 14.009-7.503 14.009-14.009 0-.213-.005-.426-.015-.637a10.025 10.025 0 0 0 2.459-2.556z" />
+                </svg>
               </Link>
-            </li>
-            <li>
-              <Link to="/jkld" className="text-gray-600">
-                India
+              <Link to="#" className="hover:text-indigo-200 transition">
+                {/* LinkedIn Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M19.994 24V12.945c0-2.42-.646-4.306-3.914-4.306-1.919 0-2.741 1.052-3.207 1.788v-1.54h-3.16c.041 1.032 0 10.113 0 10.113h3.16v-5.61c0-.3.021-.599.109-.814.238-.599.778-1.221 1.685-1.221 1.191 0 1.666.916 1.666 2.254v5.391h3.16zM3.422 8.642c1.086 0 1.962-.886 1.962-1.973s-.876-1.973-1.962-1.973-1.973.887-1.973 1.973.887 1.973 1.973 1.973zM4.977 24v-10.113H1.882V24h3.095zM22.225 0H1.775C.792 0 0 .792 0 1.775v20.451C0 23.208.792 24 1.775 24h20.451C23.208 24 24 23.208 24 22.226V1.775C24 .792 23.208 0 22.225 0z" />
+                </svg>
               </Link>
-            </li>
-            <li>
-              <Link to="/jkld" className="text-gray-600">
-                Bangladesh
+              <Link to="#" className="hover:text-indigo-200 transition">
+                {/* YouTube Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.406.593 24 1.325 24h21.351c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.406 0 22.675 0zm-14.68 19.44V8.56l10.56 5.44-10.56 5.44z" />
+                </svg>
               </Link>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
-        <div className="text-center">
-          <h6 className="text-lg text-gray-500">Follow us on:</h6>
 
-          <ul className="flex flex-wrap justify-center gap-x-8 gap-4  mt-5 mb-7">
-            <li>
-              <Link to="/jkld">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="fill-blue-600 w-8 h-8"
-                  viewBox="0 0 49.652 49.652"
-                >
-                  <path
-                    d="M24.826 0C11.137 0 0 11.137 0 24.826c0 13.688 11.137 24.826 24.826 24.826 13.688 0 24.826-11.138 24.826-24.826C49.652 11.137 38.516 0 24.826 0zM31 25.7h-4.039v14.396h-5.985V25.7h-2.845v-5.088h2.845v-3.291c0-2.357 1.12-6.04 6.04-6.04l4.435.017v4.939h-3.219c-.524 0-1.269.262-1.269 1.386v2.99h4.56z"
-                    data-original="#000000"
-                  />
-                </svg>
-              </Link>
-            </li>
-            <li>
-              <Link to="/jkld">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8"
-                  viewBox="0 0 112.196 112.196"
-                >
-                  <circle
-                    cx="56.098"
-                    cy="56.097"
-                    r="56.098"
-                    fill="#007ab9"
-                    data-original="#007ab9"
-                  />
-                  <path
-                    fill="#fff"
-                    d="M89.616 60.611v23.128H76.207V62.161c0-5.418-1.936-9.118-6.791-9.118-3.705 0-5.906 2.491-6.878 4.903-.353.862-.444 2.059-.444 3.268v22.524h-13.41s.18-36.546 0-40.329h13.411v5.715c-.027.045-.065.089-.089.132h.089v-.132c1.782-2.742 4.96-6.662 12.085-6.662 8.822 0 15.436 5.764 15.436 18.149zm-54.96-36.642c-4.587 0-7.588 3.011-7.588 6.967 0 3.872 2.914 6.97 7.412 6.97h.087c4.677 0 7.585-3.098 7.585-6.97-.089-3.956-2.908-6.967-7.496-6.967zm-6.791 59.77H41.27v-40.33H27.865v40.33z"
-                    data-original="#f1f2f2"
-                  />
-                </svg>
-              </Link>
-            </li>
-            <li>
-              <Link to="/jkld">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8"
-                  viewBox="0 0 152 152"
-                >
-                  <linearGradient
-                    id="a"
-                    x1="22.26"
-                    x2="129.74"
-                    y1="22.26"
-                    y2="129.74"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop offset="0" stopColor="#fae100" />
-                    <stop offset=".15" stopColor="#fcb720" />
-                    <stop offset=".3" stopColor="#ff7950" />
-                    <stop offset=".5" stopColor="#ff1c74" />
-                    <stop offset="1" stopColor="#6c1cd1" />
-                  </linearGradient>
-                  <g data-name="Layer 2">
-                    <g data-name="03.Instagram">
-                      <rect
-                        width="152"
-                        height="152"
-                        fill="url(#a)"
-                        data-original="url(#a)"
-                        rx="76"
-                      />
-                      <g fill="#fff">
-                        <path
-                          fill="#ffffff10"
-                          d="M133.2 26c-11.08 20.34-26.75 41.32-46.33 60.9S46.31 122.12 26 133.2q-1.91-1.66-3.71-3.46A76 76 0 1 1 129.74 22.26q1.8 1.8 3.46 3.74z"
-                          data-original="#ffffff10"
-                        />
-                        <path
-                          d="M94 36H58a22 22 0 0 0-22 22v36a22 22 0 0 0 22 22h36a22 22 0 0 0 22-22V58a22 22 0 0 0-22-22zm15 54.84A18.16 18.16 0 0 1 90.84 109H61.16A18.16 18.16 0 0 1 43 90.84V61.16A18.16 18.16 0 0 1 61.16 43h29.68A18.16 18.16 0 0 1 109 61.16z"
-                          data-original="#ffffff"
-                        />
-                        <path
-                          d="m90.59 61.56-.19-.19-.16-.16A20.16 20.16 0 0 0 76 55.33 20.52 20.52 0 0 0 55.62 76a20.75 20.75 0 0 0 6 14.61 20.19 20.19 0 0 0 14.42 6 20.73 20.73 0 0 0 14.55-35.05zM76 89.56A13.56 13.56 0 1 1 89.37 76 13.46 13.46 0 0 1 76 89.56zm26.43-35.18a4.88 4.88 0 0 1-4.85 4.92 4.81 4.81 0 0 1-3.42-1.43 4.93 4.93 0 0 1 3.43-8.39 4.82 4.82 0 0 1 3.09 1.12l.1.1a3.05 3.05 0 0 1 .44.44l.11.12a4.92 4.92 0 0 1 1.1 3.12z"
-                          data-original="#ffffff"
-                        />
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </Link>
-            </li>
-            <li>
-              <Link to="/jkld">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-8 h-8"
-                  viewBox="0 0 1227 1227"
-                >
-                  <path
-                    d="M613.5 0C274.685 0 0 274.685 0 613.5S274.685 1227 613.5 1227 1227 952.315 1227 613.5 952.315 0 613.5 0z"
-                    data-original="#000000"
-                  />
-                  <path
-                    fill="#fff"
-                    d="m680.617 557.98 262.632-305.288h-62.235L652.97 517.77 470.833 252.692H260.759l275.427 400.844-275.427 320.142h62.239l240.82-279.931 192.35 279.931h210.074L680.601 557.98zM345.423 299.545h95.595l440.024 629.411h-95.595z"
-                    data-original="#ffffff"
-                  />
-                </svg>
-              </Link>
-            </li>
-          </ul>
-
-          <p className="text-base text-gray-400">
-            © ReadymadeUI. All rights reserved.
-          </p>
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm mt-6">
+          <p>© 2025 YourWebsite. All rights reserved.</p>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <Link
+              to="/privacy-policy"
+              className="hover:text-indigo-200 transition"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to="/terms"
+              className="hover:text-indigo-200 transition"
+            >
+              Terms of Service
+            </Link>
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 };
 

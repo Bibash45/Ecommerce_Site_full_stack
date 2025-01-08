@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { FcPaid } from "react-icons/fc";
 import { RxCross1 } from "react-icons/rx";
 import { format } from "date-fns";
+import { Product } from "../../components/userComponents";
 
 const MyOrders = () => {
   const { token = "", user = {} } = useSelector(
@@ -24,7 +25,15 @@ const MyOrders = () => {
   }
 
   if (myOrdersError) {
-    return <div>Error: {myOrdersError?.message}</div>;
+    return (
+      <div className="h-[70vh] containerBox ">
+        <div className="text-center text-3xl py-10 text-gray-700 font-semibold bg-[#D3C5E5] rounded-lg shadow-lg p-8 max-w-2xl mx-auto mt-8">
+          Please make some orders !!!
+        </div>
+
+        <Product />
+      </div>
+    );
   }
 
   return (
@@ -50,8 +59,8 @@ const MyOrders = () => {
               </thead>
               <tbody>
                 {myOrders.map((order) => {
-     const {createdAt} = order;
-     const formattedDate = format(new Date(createdAt), "PPpp");
+                  const { createdAt } = order;
+                  const formattedDate = format(new Date(createdAt), "PPpp");
                   return (
                     <tr
                       key={order._id}
@@ -72,7 +81,11 @@ const MyOrders = () => {
                       <td
                         className={`mt-10 px-4 text-center flex justify-center items-center`}
                       >
-                        {order.delivered ? <FcPaid color="green" size={30} /> : <RxCross1 color="red" size={20} />}
+                        {order.delivered ? (
+                          <FcPaid color="green" size={30} />
+                        ) : (
+                          <RxCross1 color="red" size={20} />
+                        )}
                       </td>
                       <td className="py-3 px-4">
                         {order.method.toUpperCase()}

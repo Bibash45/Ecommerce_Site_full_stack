@@ -14,7 +14,7 @@ import {
   Registerpage,
   Shippingpage,
 } from "./pages/userPages";
-import { Adminlayout } from "./components/adminComponents";
+import { Adminlayout, Header } from "./components/adminComponents";
 import { AdminProductpage, Dashboardpage } from "./pages/adminPages";
 import MyOrders from "./pages/userPages/MyOrders";
 
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Adminlayout />,
+    element: <Header />,
     children: [
       {
         index: true,
