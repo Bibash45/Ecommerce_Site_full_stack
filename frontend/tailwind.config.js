@@ -4,9 +4,10 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        'bottom': '0px 4px 6px #D3C5E5',  // Customize this shadow to suit your needs
-      }
+        bottom: "0px 4px 6px #D3C5E5",
+      },
+     
     },
   },
   plugins: [],
-}
+};

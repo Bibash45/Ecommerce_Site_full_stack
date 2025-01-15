@@ -53,25 +53,16 @@ export default function Navbar() {
       {/* Navbar Container */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          {/* Mobile menu button */}
-          {/* <div className="flex items-center sm:hidden">
-            <DisclosureButton className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-              <XMarkIcon className="hidden h-6 w-6" aria-hidden="true" />
-            </DisclosureButton>
-          </div> */}
-
-          {/* Logo */}
+          
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
+                className="h-10 w-auto"
+                src="https://www.e-capinfo.com/wp-content/uploads/2018/10/pictos_easystore.png"
                 alt="Your Company"
               />
-              <span className="text-white font-bold ml-2 hidden sm:block">
-                Bechbikhan
+              <span className="text-white font-bold ml-2 hidden sm:block  tracking-widest">
+                EasyStore
               </span>
             </Link>
           </div>
@@ -131,7 +122,7 @@ export default function Navbar() {
             {userInfo && userInfo.user ? (
               <Menu as="div" className="relative">
                 <div>
-                  <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                  <MenuButton className="flex rounded-full bg-gray-800 text-sm  ">
                     <img
                       className="h-8 w-8 rounded-full"
                       src="https://e0.365dm.com/21/07/768x432/skysports-neymar-la-liga-barcelona_5459434.jpg?20210726203533"
@@ -139,7 +130,7 @@ export default function Navbar() {
                     />
                   </MenuButton>
                 </div>
-                <MenuItems className="absolute -right-10 mt-2 w-44 rounded-l-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none cursor-pointer">
+                <MenuItems className=" border-1.5 border-black absolute -right-10 mt-2 w-44 rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none cursor-pointer">
                   <MenuItem>
                     {({ active }) => (
                       <Link
@@ -193,26 +184,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {/* <DisclosurePanel className="sm:block">
-        <div className="space-y-1 px-2 pb-3 pt-2">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.to}
-              className={classNames(
-                item.current
-                  ? "bg-gray-900 text-white"
-                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                "block rounded-md px-3 py-2 text-base font-medium"
-              )}
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-      </DisclosurePanel> */}
     </Disclosure>
   );
 }

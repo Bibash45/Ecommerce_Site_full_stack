@@ -40,23 +40,23 @@ const router = createBrowserRouter([
         element: <Registerpage />,
       },
       {
-        path: "/confirmation/:confirmationToken",
+        path: "confirmation/:confirmationToken",
         element: <EmailConfirmationpage />,
       },
       {
-        path: "/cart",
+        path: "cart",
         element: <Cartpage />,
       },
       {
-        path: "/shipping",
+        path: "shipping",
         element: <Shippingpage />,
       },
       {
-        path: "/confirm",
+        path: "confirm",
         element: <Confirmpage />,
       },
       {
-        path: "/myorders",
+        path: "myorders",
         element: <MyOrders />,
       },
       {
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Header />,
+    element: <Adminlayout />,
     children: [
       {
         index: true,
