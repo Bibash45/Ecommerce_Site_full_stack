@@ -37,7 +37,7 @@ const MyOrders = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
+    <div className="min-h-[550px]  py-10 px-4">
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-400">
         My Orders
       </h1>
@@ -50,7 +50,9 @@ const MyOrders = () => {
                 <tr className="text-gray-600 border-b text-center">
                   <th className="py-3 px-4">Order ID</th>
                   <th className="py-3 px-4">Date</th>
-                  <th className="py-3 px-4">Total</th>
+                  <th className="py-3 px-4">
+                    Total <span className="text-xs ">(Rs.)</span>
+                  </th>
                   <th className="py-3 px-4">Paid Status</th>
                   <th className="py-3 px-4">Delivered</th>
                   <th className="py-3 px-4">Payment Method</th>
@@ -79,7 +81,7 @@ const MyOrders = () => {
                         {order.status}
                       </td>
                       <td
-                        className={`mt-10 px-4 text-center flex justify-center items-center`}
+                        className={`mt-12 px-4 text-center flex justify-center items-center`}
                       >
                         {order.delivered ? (
                           <FcPaid color="green" size={30} />

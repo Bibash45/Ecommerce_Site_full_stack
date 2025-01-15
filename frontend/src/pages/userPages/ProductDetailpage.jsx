@@ -111,10 +111,10 @@ const ProductDetailpage = () => {
               </p>
               <div className="mb-4">
                 <span className="text-2xl font-bold mr-2">
-                  ${product.product_price}
+                  Rs.{product.product_price}
                 </span>
                 <span className="text-gray-500 line-through">
-                  ${product.product_price}
+                  Rs.{product.product_price}
                 </span>
               </div>
               <p className="text-gray-700 mb-6">

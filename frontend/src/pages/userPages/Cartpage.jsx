@@ -88,7 +88,7 @@ const Cartpage = () => {
                         {product_name}
                       </h5>
                       <h6 className="font-medium text-lg leading-8 text-indigo-600  max-[550px]:text-center">
-                        ${product_price}
+                        Rs.{product_price}
                       </h6>
                     </div>
                     <h3>
@@ -164,7 +164,7 @@ const Cartpage = () => {
                     </button>
                   </div>
                   <h6 className="text-indigo-600 font-manrope font-bold text-2xl leading-9 w-full max-w-[176px] text-center">
-                    ${qty * product_price}
+                    Rs.{qty * product_price}
                   </h6>
                 </div>
               </div>
@@ -177,7 +177,7 @@ const Cartpage = () => {
                 Sub Total
               </p>
               <h6 className="font-semibold text-xl leading-8 text-gray-900">
-                ${subTotal()}
+                Rs.{subTotal()}
               </h6>
             </div>
             <div className="flex items-center justify-between w-full mb-6">
@@ -185,7 +185,7 @@ const Cartpage = () => {
                 Delivery Charge
               </p>
               <h6 className="font-semibold text-xl leading-8 text-gray-900">
-                $10
+                Rs.10
               </h6>
             </div>
             <hr />
@@ -194,7 +194,7 @@ const Cartpage = () => {
                 <span className="text-gray-400">(tax added) </span>Total Amount
               </p>
               <h6 className="font-manrope font-medium text-2xl leading-9 text-indigo-500">
-                ${totalPrice}
+                Rs.{totalPrice}
               </h6>
             </div>
           </div>

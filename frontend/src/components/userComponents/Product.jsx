@@ -30,7 +30,7 @@ const Product = () => {
   }
 
   return (
-    <div className="grid grid-cols-2  w-[488]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl-grid-cols-6  gap-2">
+    <div className="grid grid-cols-2  w-[488]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl-grid-cols-6  gap-2 mb-2">
       {products &&
         products.map((product) => {
           const product_image = product.product_image;

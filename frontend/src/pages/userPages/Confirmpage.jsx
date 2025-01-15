@@ -199,7 +199,7 @@ const Confirmpage = () => {
                   />
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-700">
-                  ${item.product_price} x {item.qty} = $
+                  Rs.{item.product_price} x {item.qty} = Rs.
                   {(item.qty * item.product_price).toFixed(2)}
                 </td>
               </tr>
@@ -218,18 +218,18 @@ const Confirmpage = () => {
             <div className="flex justify-between">
               <span className="text-gray-600">Subtotal</span>
               <span className="text-gray-800 font-medium">
-                ${subTotal().toFixed(2)}
+                Rs.{subTotal().toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Delivery Charge</span>
-              <span className="text-gray-800 font-medium">$10.00</span>
+              <span className="text-gray-800 font-medium">Rs.10.00</span>
             </div>
 
             <hr className="border-gray-200" />
             <div className="flex justify-between text-lg font-semibold">
               <span className="text-gray-700">Total</span>
-              <span className="text-gray-900">${totalPrice}</span>
+              <span className="text-gray-900">Rs.{totalPrice}</span>
             </div>
             <div className="flex gap-8">
               <button

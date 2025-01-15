@@ -30,7 +30,7 @@ const Card = ({ name, description, price, image, productId }) => {
         </p>
         <div className="flex items-center">
           <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
-            ${price}
+            Rs.{price}
           </p>
           <p className="text-base  font-medium text-gray-500 line-through dark:text-gray-300">
             $25.00
