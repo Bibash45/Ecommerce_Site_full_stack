@@ -1,4 +1,5 @@
 import Dashboardpage from "./Dashboardpage";
 import AdminProductpage from "./AdminProductpage";
-
-export { AdminProductpage, Dashboardpage };
+import AdminAddProductpage from "./AdminAddProductpage";
+import AdminAddCategorypage from "./AdminAddCategorypage";
+export { AdminProductpage, Dashboardpage,AdminAddProductpage,AdminAddCategorypage };

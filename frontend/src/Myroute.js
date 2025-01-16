@@ -15,7 +15,7 @@ import {
   Shippingpage,
 } from "./pages/userPages";
 import { Adminlayout, Header } from "./components/adminComponents";
-import { AdminProductpage, Dashboardpage } from "./pages/adminPages";
+import { AdminAddCategorypage, AdminAddProductpage, AdminProductpage, Dashboardpage } from "./pages/adminPages";
 import MyOrders from "./pages/userPages/MyOrders";
 
 const router = createBrowserRouter([
@@ -80,6 +80,38 @@ const router = createBrowserRouter([
       {
         path: "product",
         element: <AdminProductpage />,
+      },
+      {
+        path: "product/add",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "product/update",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "product/list",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "category",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "category/list",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "category/update",
+        element: <AdminAddProductpage />,
+      },
+      {
+        path: "category/add",
+        element: <AdminAddCategorypage />,
+      },
+      {
+        path: "orders",
+        element: <AdminAddProductpage />,
       },
     ],
   },

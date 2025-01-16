@@ -26,7 +26,7 @@ const Adminlayout = () => {
       />
 
       <div className={`  lg:ml-64 flex flex-col `}>
-        <div className="bg-purple-400  py-2 pl-2 pr-10 flex justify-between items-center">
+        <div className="bg-amber-500  py-2 pl-2 pr-10 flex justify-between items-center">
           <div>
             <button
               onClick={toggleSidebar}
@@ -39,7 +39,7 @@ const Adminlayout = () => {
             <h1 className="text-white  font-bold text-3xl">{userInfo?.user?.name}</h1>
           </div>
         </div>
-        <div className="p-2">
+        <div >
           <Outlet />
         </div>
       </div>
