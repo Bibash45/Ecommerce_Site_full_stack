@@ -2,12 +2,13 @@ const Product = require("../models/productModel");
 
 // to post product
 exports.postProduct = async (req, res) => {
+  console.log(req.body);
+  
   // Check if files are uploaded
   if (!req.files || req.files.length === 0) {
     return res.status(400).send({ error: "Please upload at least one file" });
   }
 
-  // Extract file paths from uploaded files
   // Extract file paths from uploaded files
   const imagePaths = req.files.map((file) => file.path);
 

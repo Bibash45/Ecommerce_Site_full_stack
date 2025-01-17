@@ -20,11 +20,15 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
     createProduct: builder.mutation({
       query: (data) => ({
-        url: `postproduct`,
+        url: `/postproduct`,
         method: "POST",
-        body: data,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${data.token}`,
+        },
+        body: data.data,
       }),
-      invalidatesTags: ["Products"], // Updated to match the tag used in `getProducts`
+      invalidatesTags: ["Products"],
     }),
     updateProduct: builder.mutation({
       query: (data) => ({

@@ -1,28 +1,117 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { useGetCategoryQuery } from "../../features/categoryApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useCreateProductMutation } from "../../features/productApiSlice";
+import { toast } from "react-toastify";
 
 const AdminAddProductPage = () => {
-  const [images, setImages] = useState([]);
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const { token } = userInfo || {};
+
+  const { data: categoryList, isLoading: categoryListLoading } =
+    useGetCategoryQuery({ token });
+  const [
+    createProduct,
+    { isLoading: createProductLoading, error: createProductError },
+  ] = useCreateProductMutation();
+
+  const [state, setState] = useState({
+    product_name: "",
+    product_price: "",
+    product_description: "",
+    countInStock: "",
+    product_image: [],
+    category: "",
+  });
+
+  
+
+  const inputChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
-    if (files.length + images.length > 5) {
-      setImages([]);
+    if (files.length + state.product_image.length > 5) {
       alert("You can only upload up to 5 images.");
       return;
     }
 
-    setImages((prevImages) => [...prevImages, ...files]);
+    setState((prevState) => ({
+      ...prevState,
+      product_image: [...prevState.product_image, ...files],
+    }));
   };
 
+  const removeImage = (index) => {
+    setState((prevState) => ({
+      ...prevState,
+      product_image: prevState.product_image.filter((_, i) => i !== index),
+    }));
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+  
+    if (
+      !(
+        state.product_price &&
+        state.product_name &&
+        state.product_image.length > 0 &&
+        state.countInStock &&
+        state.product_description &&
+        state.category
+      )
+    ) {
+      toast.error("Complete the input fields.");
+      return;
+    }
+  
+    try {
+      // Create a FormData instance
+      const formData = new FormData();
+      
+      // Append the normal fields
+      formData.append("product_name", state.product_name);
+      formData.append("product_price", state.product_price);
+      formData.append("product_description", state.product_description);
+      formData.append("countInStock", state.countInStock);
+      formData.append("category", state.category);
+  
+      // Append the product images (files)
+      state.product_image.forEach((file) => {
+        formData.append("product_image", file);
+      });
+  
+      // Send the request with form data
+      const response = await createProduct({ data: formData, token }).unwrap();
+      toast.success("Product created");
+      setState({
+        product_name: "",
+        product_price: "",
+        product_description: "",
+        countInStock: "",
+        product_image: [],
+        category: "",
+      });
+    } catch (error) {
+      toast.error("Error creating product");
+    }
+  };
+  
+
+  if (categoryListLoading || createProductLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="min-h-[880px]  flex items-center justify-center bg-gray-100 py-6">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-[1200px] w-full">
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
           Add New Product
         </h1>
-        <form>
+        <form onSubmit={submitForm} >
           {/* Product Name */}
           <div className="mb-4">
             <label
@@ -32,8 +121,11 @@ const AdminAddProductPage = () => {
               Product Name
             </label>
             <input
+              onChange={inputChange}
               type="text"
               id="product_name"
+              name="product_name"
+              value={state.product_name}
               className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder="Enter product name"
               required
@@ -50,8 +142,11 @@ const AdminAddProductPage = () => {
                 Price
               </label>
               <input
+                onChange={inputChange}
                 type="number"
                 id="price"
+                name="product_price"
+                value={state.product_price}
                 className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter price"
                 required
@@ -65,8 +160,11 @@ const AdminAddProductPage = () => {
                 Stock
               </label>
               <input
+                onChange={inputChange}
                 type="number"
                 id="stock"
+                name="countInStock"
+                value={state.countInStock}
                 className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 placeholder="Enter stock"
                 required
@@ -80,12 +178,19 @@ const AdminAddProductPage = () => {
                 Category
               </label>
               <select
+                onChange={inputChange}
                 id="category"
-                className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                name="category"
+                value={state.category}
+                className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none hover:bg-white"
               >
                 <option value="">Select category</option>
-                <option value="jacket">Jacket</option>
-                <option value="electronics">Electronics</option>
+                {categoryList &&
+                  categoryList.map((category) => (
+                    <option index={category._id} value={category._id}>
+                      {category.category_name}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
@@ -99,7 +204,10 @@ const AdminAddProductPage = () => {
               Description
             </label>
             <textarea
+              onChange={inputChange}
               id="description"
+              name="product_description"
+              value={state.product_description}
               className="mt-1 block w-full p-2 text-gray-800 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               rows="3"
               placeholder="Enter product description"
@@ -126,9 +234,9 @@ const AdminAddProductPage = () => {
           </div>
 
           {/* Preview Images */}
-          {images.length > 0 && (
+          {state.product_image.length > 0 && (
             <div className="flex flex-wrap gap-4 mt-4">
-              {images.map((image, index) => (
+              {state.product_image.map((image, index) => (
                 <div key={index} className="relative group">
                   <img
                     src={URL.createObjectURL(image)}
@@ -137,9 +245,7 @@ const AdminAddProductPage = () => {
                   />
                   <button
                     type="button"
-                    onClick={() =>
-                      setImages(images.filter((_, i) => i !== index))
-                    }
+                    onClick={() => removeImage(index)}
                     className="absolute top-1 right-1 text-white bg-red-500 hover:bg-red-600 p-1 rounded-full text-sm transition-opacity opacity-0 group-hover:opacity-100"
                   >
                     <RxCross2 />
