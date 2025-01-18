@@ -3,7 +3,7 @@ const Product = require("../models/productModel");
 // to post product
 exports.postProduct = async (req, res) => {
   console.log(req.body);
-  
+
   // Check if files are uploaded
   if (!req.files || req.files.length === 0) {
     return res.status(400).send({ error: "Please upload at least one file" });
@@ -115,7 +115,7 @@ exports.deleteProduct = async (req, res) => {
 
 // get product list
 exports.productList = async (req, res) => {
-  let product = await Product.find();
+  let product = await Product.find().populate("category","_id category_name");
   if (!product) {
     return res.status(400).json({
       error: "Product not found.",
@@ -128,11 +128,11 @@ exports.productList = async (req, res) => {
 exports.productDetails = async (req, res) => {
   let product = await Product.findById({
     _id: req.params.id,
-  }).populate("category")
+  }).populate("category");
   if (!product) {
     return res.status(400).json({
       error: "Product not found",
     });
   }
-  return res.status(200).json(product);
+  return res.status(200).json(product)
 };

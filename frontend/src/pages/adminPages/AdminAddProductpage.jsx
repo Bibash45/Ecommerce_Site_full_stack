@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useGetCategoryQuery } from "../../features/categoryApiSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useCreateProductMutation } from "../../features/productApiSlice";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AdminAddProductPage = () => {
   const { userInfo } = useSelector((state) => state.auth || {});
@@ -11,10 +11,6 @@ const AdminAddProductPage = () => {
 
   const { data: categoryList, isLoading: categoryListLoading } =
     useGetCategoryQuery({ token });
-  const [
-    createProduct,
-    { isLoading: createProductLoading, error: createProductError },
-  ] = useCreateProductMutation();
 
   const [state, setState] = useState({
     product_name: "",
@@ -24,8 +20,6 @@ const AdminAddProductPage = () => {
     product_image: [],
     category: "",
   });
-
-  
 
   const inputChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -54,7 +48,7 @@ const AdminAddProductPage = () => {
 
   const submitForm = async (e) => {
     e.preventDefault();
-  
+
     if (
       !(
         state.product_price &&
@@ -68,25 +62,27 @@ const AdminAddProductPage = () => {
       toast.error("Complete the input fields.");
       return;
     }
-  
+
     try {
-      // Create a FormData instance
       const formData = new FormData();
-      
-      // Append the normal fields
+
       formData.append("product_name", state.product_name);
       formData.append("product_price", state.product_price);
       formData.append("product_description", state.product_description);
       formData.append("countInStock", state.countInStock);
       formData.append("category", state.category);
-  
+
       // Append the product images (files)
       state.product_image.forEach((file) => {
         formData.append("product_image", file);
       });
-  
-      // Send the request with form data
-      const response = await createProduct({ data: formData, token }).unwrap();
+
+      const response = await axios.post("/postproduct", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success("Product created");
       setState({
         product_name: "",
@@ -100,18 +96,14 @@ const AdminAddProductPage = () => {
       toast.error("Error creating product");
     }
   };
-  
 
-  if (categoryListLoading || createProductLoading) {
-    return <div>Loading...</div>;
-  }
   return (
     <div className="min-h-[880px]  flex items-center justify-center bg-gray-100 py-6">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-[1200px] w-full">
         <h1 className="text-2xl font-bold text-center text-gray-700 mb-4">
           Add New Product
         </h1>
-        <form onSubmit={submitForm} >
+        <form onSubmit={submitForm}>
           {/* Product Name */}
           <div className="mb-4">
             <label
@@ -258,7 +250,7 @@ const AdminAddProductPage = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-purple-600 text-white py-2 mt-2 rounded-lg shadow-md hover:bg-purple-700 transition duration-200"
+            className="w-full bg-purple-400 text-white py-2 mt-2 rounded-lg shadow-md hover:bg-purple-500 transition duration-200"
           >
             Submit
           </button>

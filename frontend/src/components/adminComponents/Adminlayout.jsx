@@ -26,7 +26,7 @@ const Adminlayout = () => {
       />
 
       <div className={`  lg:ml-64 flex flex-col `}>
-        <div className="bg-amber-500  py-2 pl-2 pr-10 flex justify-between items-center">
+        <div className="bg-[#735DA5]  py-2 pl-2 pr-10 flex justify-between items-center">
           <div>
             <button
               onClick={toggleSidebar}

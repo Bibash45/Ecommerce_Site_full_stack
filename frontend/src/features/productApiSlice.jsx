@@ -18,67 +18,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       ],
       keepUnusedDataFor: 5,
     }),
-    createProduct: builder.mutation({
-      query: (data) => ({
-        url: `/postproduct`,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${data.token}`,
-        },
-        body: data.data,
-      }),
-      invalidatesTags: ["Products"],
-    }),
-    updateProduct: builder.mutation({
-      query: (data) => ({
-        url: `/updateproduct/${data.productId}`,
-        method: "PUT",
-        body: data,
-      }),
-      invalidatesTags: ["Products"],
-    }),
-    uploadProductImage: builder.mutation({
-      query: (data) => ({
-        url: `/uploadImage`, // Add the actual endpoint for image upload
-        method: "POST",
-        body: data,
-      }),
-    }),
-    deleteProduct: builder.mutation({
-      query: (productId) => ({
-        url: `/deleteproduct/${productId}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Products"],
-    }),
-    createReview: builder.mutation({
-      query: (data) => ({
-        url: `/product/${data.productId}/reviews`,
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: (result, error, data) => [
-        { type: "Products", id: data.productId },
-      ],
-    }),
-    getTopProducts: builder.query({
-      query: () => ({
-        url: `/topproducts`, // Add the actual endpoint for top products
-      }),
-      providesTags: ["TopProducts"], // Use a separate tag for top products if needed
-      keepUnusedDataFor: 5,
-    }),
+    
   }),
 });
 
 export const {
   useGetProductsQuery,
   useGetProductDetailsQuery,
-  useCreateProductMutation,
-  useUpdateProductMutation,
-  useUploadProductImageMutation,
-  useDeleteProductMutation,
-  useCreateReviewMutation,
-  useGetTopProductsQuery,
+  
 } = productsApiSlice;
