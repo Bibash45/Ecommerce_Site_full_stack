@@ -107,7 +107,7 @@ const ProductDetailpage = () => {
                 {product.product_name}
               </h2>
               <p className="text-gray-600 mb-1">
-                category: {product.category.category_name}
+                category: {product?.category?.category_name}
               </p>
               <div className="mb-4">
                 <span className="text-2xl font-bold mr-2">

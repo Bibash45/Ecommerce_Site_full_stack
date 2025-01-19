@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Category = require("../models/categoryModel");
 
-
 // post category
 exports.postCategory = async (req, res) => {
   let category = await Category.findOne({
@@ -88,6 +87,8 @@ exports.categoryDetails = async (req, res) => {
 
 // delete category
 exports.deleteCategory = async (req, res) => {
+  console.log(req.params.id);
+
   const category = await Category.findByIdAndDelete({
     _id: req.params.id,
   });
