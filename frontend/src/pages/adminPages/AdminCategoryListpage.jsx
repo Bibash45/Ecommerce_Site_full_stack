@@ -74,7 +74,7 @@ const AdminCategoryListpage = () => {
                     <div className="flex items-center justify-center gap-4">
                       {/* Edit Button */}
                       <button
-                        className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg shadow-sm transition duration-200"
+                        className="p-2 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg shadow-sm hover:mr-2 transition-all ease-in-out duration-400"
                         type="button"
                       >
                         <BiEdit size={20} />
@@ -82,7 +82,7 @@ const AdminCategoryListpage = () => {
                       {/* Delete Button */}
                       <button
                         onClick={() => handleDelete(category._id)}
-                        className={`p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg shadow-sm transition duration-200 ${
+                        className={`p-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg shadow-sm   hover:ml-2 transition-all ease-in-out duration-400 ${
                           deleteLoading ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                         type="button"

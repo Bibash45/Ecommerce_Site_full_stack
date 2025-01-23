@@ -13,7 +13,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         },
         body: orderDetails,
       }),
-      invalidatesTags: ["Orders"], 
+      invalidatesTags: ["Orders"],
     }),
     getMyOrders: builder.query({
       query: ({ userId, token }) => ({
@@ -24,10 +24,26 @@ export const orderApiSlice = apiSlice.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      providesTags: ["Orders"], 
+      providesTags: ["Orders"],
+      keepUnusedDataFor: 5,
+    }),
+    getAllOrders: builder.query({
+      query: ({ token }) => ({
+        url: `/orderlist`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Orders"],
       keepUnusedDataFor: 5,
     }),
   }),
 });
 
-export const { useGetMyOrdersQuery, useOnCashOrderMutation } = orderApiSlice;
+export const {
+  useGetMyOrdersQuery,
+  useOnCashOrderMutation,
+  useGetAllOrdersQuery,
+} = orderApiSlice;

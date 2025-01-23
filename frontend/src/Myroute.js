@@ -19,6 +19,7 @@ import {
   AdminAddCategorypage,
   AdminAddProductpage,
   AdminCategoryListpage,
+  AdminOrders,
   AdminProductList,
   AdminProductpage,
   Dashboardpage,
@@ -115,7 +116,7 @@ const router = createBrowserRouter([
       },
       {
         path: "orders",
-        element: <AdminAddProductpage />,
+        element: <AdminOrders />,
       },
     ],
   },
