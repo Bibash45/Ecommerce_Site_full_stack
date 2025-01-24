@@ -10,6 +10,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const orderRoute = require("./routes/orderRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const wishlistRoute = require("./routes/wishlistRoute");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api", userRoute);
 app.use("/api", categoryRoute);
 app.use("/api", productRoute);
 app.use("/api", orderRoute);
+app.use("/api", wishlistRoute);
 
 // routes for esewa payment
 app.use("/api", paymentRoute);

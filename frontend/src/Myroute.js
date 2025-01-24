@@ -1,6 +1,6 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Userlayout } from "./components/userComponents";
+import { ProfilePage, Userlayout } from "./components/userComponents";
 import {
   Cartpage,
   CompletePaymentPage,
@@ -13,6 +13,7 @@ import {
   Productpage,
   Registerpage,
   Shippingpage,
+  FavouritesPage,
 } from "./pages/userPages";
 import { Adminlayout, Header } from "./components/adminComponents";
 import {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
         element: <Registerpage />,
       },
       {
+        path: "profile",
+        element: <ProfilePage />,
+      },
+      {
         path: "confirmation/:confirmationToken",
         element: <EmailConfirmationpage />,
       },
@@ -61,6 +66,10 @@ const router = createBrowserRouter([
       {
         path: "shipping",
         element: <Shippingpage />,
+      },
+      {
+        path: "favourites",
+        element: <FavouritesPage />,
       },
       {
         path: "confirm",

@@ -6,6 +6,8 @@ const {
   deleteCategory,
   categoryDetails,
 } = require("../controllers/categoryController");
+
+
 const {
   requireSignin,
   requireAdmin,

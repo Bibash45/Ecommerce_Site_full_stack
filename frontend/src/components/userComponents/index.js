@@ -4,4 +4,5 @@ import Userlayout from "./Userlayout";
 import Card from "./Card";
 import Product from "./Product";
 import Carousel from "./Carousel";
-export { Footer, Navbar, Userlayout, Card, Product,Carousel };
+import ProfilePage from "./ProfilePage";
+export { Footer, Navbar, Userlayout, Card, Product, Carousel, ProfilePage };

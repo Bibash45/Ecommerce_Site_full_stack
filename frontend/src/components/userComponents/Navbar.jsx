@@ -1,58 +1,37 @@
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/react";
 import { LuShoppingCart } from "react-icons/lu";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "../../features/userApiSlice";
-import { logoutf } from "../../features/authSlice";
+import { logout } from "../../features/authSlice";
 import { toast } from "react-toastify";
-
-const navigation = [
-  { name: "Dashboard", to: "/", current: true },
-  { name: "Team", to: "/team", current: false },
-  { name: "Projects", to: "/projects", current: false },
-  { name: "Calendar", to: "/calendar", current: false },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { useState } from "react";
+import { AiOutlineUser, AiOutlineHeart, AiOutlineLogout } from "react-icons/ai"; // Icons
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [logout, { isLoading }] = useLogoutMutation();
+  const [logoutRequest] = useLogoutMutation();
   const { userInfo } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogOut = async (e) => {
     e.preventDefault();
     try {
-      const res = await logout();
-      dispatch(logoutf());
+      await logoutRequest();
+      dispatch(logout());
       navigate("/login");
     } catch (error) {
-      toast.error("logout failed");
-      console.log("Error logging out:");
+      toast.error("Logout failed");
+      console.error("Error logging out:", error);
     }
   };
 
   return (
-    <Disclosure
-      as="nav"
-      className="bg-[#735DA5] py-2 sticky top-0 z-50  shadow-md shadow-[#D3C5E5]"
-    >
-      {/* Navbar Container */}
+    <nav className="bg-[#735DA5] py-2 sticky top-0 z-50 shadow-md shadow-[#D3C5E5]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
+          {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img
@@ -60,14 +39,14 @@ export default function Navbar() {
                 src="https://www.e-capinfo.com/wp-content/uploads/2018/10/pictos_easystore.png"
                 alt="Your Company"
               />
-              <span className="text-white font-bold ml-2 hidden sm:block  tracking-widest">
+              <span className="text-white font-bold ml-2 hidden sm:block tracking-widest">
                 EasyStore
               </span>
             </Link>
           </div>
 
-          {/* Search Bar (Always visible and responsive) */}
-          <div className="flex items-center flex-grow sm:w-1/3 justify-center  md:justify-around">
+          {/* Search Bar */}
+          <div className="flex items-center flex-grow sm:w-1/3 justify-center md:justify-around">
             <form className="relative w-full md:max-w-xs flex justify-center">
               <div className="relative">
                 <input
@@ -98,84 +77,79 @@ export default function Navbar() {
             </form>
           </div>
 
-          {/* Right section (Profile + Bell Icon) */}
+          {/* Right Section */}
           <div className="flex items-center space-x-4">
             {/* Cart Icon */}
             <Link to="/cart" className="relative">
               <button
                 type="button"
-                className="relative rounded-full p-2 text-gray-300 hover:text-white "
+                className="relative rounded-full p-2 text-gray-300 hover:text-white"
               >
                 <LuShoppingCart className="h-6 w-6" aria-hidden="true" />
               </button>
-              {cartItems.length ? (
+              {cartItems.length > 0 && (
                 <div className="absolute text-[#53427d] bg-white rounded-full top-0 right-0 h-5 w-5 flex items-center justify-center">
                   {cartItems.length}
                 </div>
-              ) : (
-                ""
               )}
             </Link>
 
             {/* Profile Dropdown */}
             {userInfo && userInfo.user ? (
-              <Menu as="div" className="relative">
-                <div>
-                  <MenuButton className="flex rounded-full bg-white text-sm  ">
-                    <img
-                      className="h-[38px] w-[38px] rounded-full object-contain object-center "
-                      src={`http://localhost:5000/${userInfo.user.image}`}
-                      alt=""
-                    />
-                  </MenuButton>
-                </div>
-                <MenuItems className=" border-1.5 border-black absolute -right-10 mt-2 w-44 rounded-lg bg-white shadow-lg ring-1 ring-black/5 focus:outline-none cursor-pointer">
-                  <MenuItem>
-                    {({ active }) => (
-                      <Link
-                        to="/profile"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Profile
-                      </Link>
-                    )}
-                  </MenuItem>
-                  <MenuItem>
-                    {({ active }) => (
-                      <Link
-                        to="/myorders"
-                        className={`${classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )} w-full`}
-                      >
-                        My orders
-                      </Link>
-                    )}
-                  </MenuItem>
-                  <MenuItem>
-                    {({ active }) => (
-                      <button
-                        onClick={handleLogOut}
-                        className={`${classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )} w-full text-start`}
-                      >
-                        Sign out
-                      </button>
-                    )}
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
+              <div className="relative">
+                <button
+                  onMouseEnter={() => setDropdownOpen(true)}
+                  onMouseLeave={() => setDropdownOpen(false)}
+                  className="flex rounded-full bg-white text-sm focus:outline-none"
+                >
+                  <img
+                    className="h-[38px] w-[38px] rounded-full object-contain object-center"
+                    src={`http://localhost:5000/${userInfo.user.image}`}
+                    alt="Profile"
+                  />
+                </button>
+                {dropdownOpen && (
+                  <div
+                    onMouseEnter={() => setDropdownOpen(true)}
+                    onMouseLeave={() => setDropdownOpen(false)}
+                    className="absolute right-0  w-48 rounded-lg bg-white shadow-lg ring-1 ring-black/5 z-50"
+                  >
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                         hover:rounded-lg
+                      transition-all"
+                    >
+                      <AiOutlineUser className="h-5 w-5" /> Profile
+                    </Link>
+                    <Link
+                      to="/myorders"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all  hover:rounded-lg"
+                    >
+                      <AiOutlineUser className="h-5 w-5" /> Orders
+                    </Link>
+                    <Link
+                      to="/favourites"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all  hover:rounded-lg"
+                    >
+                      <AiOutlineHeart className="h-5 w-5" /> Favourites
+                    </Link>
+                    <button
+                      onClick={(e) => {
+                        handleLogOut(e);
+                        setDropdownOpen(false);
+                      }}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all  hover:rounded-lg"
+                    >
+                      <AiOutlineLogout className="h-5 w-5" /> Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link
                 to="/login"
-                type="button"
-                className="text-white font-semibold bg-gradient-to-r from-[#ffde21] via-[#e0bc00] to-[#ffde21] hover:bg-gradient-to-br focus:ring-1 focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-sm mt-1"
+                className="text-white font-semibold bg-gradient-to-r from-[#ffde21] via-[#e0bc00] to-[#ffde21] hover:bg-gradient-to-br focus:ring-1 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-sm mt-1 "
               >
                 Login
               </Link>
@@ -183,6 +157,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </Disclosure>
+    </nav>
   );
 }

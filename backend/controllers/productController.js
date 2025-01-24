@@ -112,6 +112,28 @@ exports.deleteProduct = async (req, res) => {
   });
 };
 
+// exports.productList = async (req, res) => {
+//   const pageSize = Number(process.env.PAGINATION_LIMIT_ADMIN) || 10;
+//   const page = Number(req.query.pageNumber || 1);
+//   const keyword = req.query.keyword
+//     ? { name: { $regex: req.query.keyword, $options: "i" } }
+//     : {};
+
+//   const count = await Product.countDocuments();
+//   let product = await Product.find()
+//     .limit(pageSize)
+//     .skip((page - 1) * pageSize)
+//     .populate("category", "_id category_name");
+//   if (!product) {
+//     return res.status(400).json({
+//       error: "Product not found.",
+//     });
+//   }
+//   return res
+//     .status(200)
+//     .json({ product, page, pages: Math.ceil(count / pageSize) });
+// };
+
 // get product list
 exports.productList = async (req, res) => {
   let product = await Product.find().populate("category","_id category_name");

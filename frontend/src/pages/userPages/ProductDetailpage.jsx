@@ -1,38 +1,55 @@
 import React, { useEffect, useState } from "react";
 import { useGetProductDetailsQuery } from "../../features/productApiSlice";
-
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../features/cartSlice";
 import { toast } from "react-toastify";
 import { Product } from "../../components/userComponents";
+import {
+  useCreateWishlistMutation,
+  useDeleteMyWishlistMutation,
+  useGetMyWishlistQuery,
+} from "../../features/wishlistApiSlice";
 
-const ProductDetailpage = () => {
+const ProductDetailPage = () => {
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const { token } = userInfo || {};
+  const { _id: userId } = userInfo?.user || {};
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
   const { productId } = useParams();
-  const {
-    data: product,
-    isLoading,
-    error,
-  } = useGetProductDetailsQuery(productId);
 
-  // getting images array
-  const { product_image = [] } = product || {};
-
+  const [qty, setQty] = useState(1);
+  const [mainImage, setMainImage] = useState("");
   const [zoom, setZoom] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  const image1 = "http://localhost:5000/" + product_image[0];
+  // Fetch product details
+  const {
+    data: product,
+    isLoading: productLoading,
+    error: productError,
+  } = useGetProductDetailsQuery(productId);
 
-  const [mainImage, setMainImage] = useState(image1 || "");
+  const {
+    data: wishlistData,
+    isLoading: wishlistLoading,
+    error: wishlistError,
+    refetch: refetchWishlist,
+  } = useGetMyWishlistQuery({ userId, token });
+
+  const [createWishlist, { isLoading: createWishlistLoading }] =
+    useCreateWishlistMutation();
+
+  const [deleteWishlist, { isLoading: deleteWishlistLoading }] =
+    useDeleteMyWishlistMutation();
 
   useEffect(() => {
-    if (product_image.length > 0) {
-      setMainImage(image1);
+    if (product?.product_image?.length > 0) {
+      setMainImage(`http://localhost:5000/${product.product_image[0]}`);
     }
-  }, [product_image.length, image1]);
+  }, [product]);
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } = e.target.getBoundingClientRect();
@@ -41,20 +58,49 @@ const ProductDetailpage = () => {
     setZoom({ x, y });
   };
 
-  const addtoCartHandler = () => {
+  const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     toast.success("Item added to cart");
   };
 
-  if (isLoading) {
+  const addToWishlist = async () => {
+    try {
+      await createWishlist({ userId, productId, token }).unwrap();
+      refetchWishlist();
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
+
+  const removeFromWishlist = async () => {
+    try {
+      await deleteWishlist({ token, userId, productId }).unwrap();
+      refetchWishlist();
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
+
+  const checkWishlistData = () => {
+    return wishlistData?.products?.some(
+      (item) => item?.productId?._id === productId
+    );
+  };
+
+  if (productLoading || wishlistLoading || createWishlistLoading || deleteWishlistLoading) {
     return <div className="text-center">Loading...</div>;
+  }
+
+  if (productError || wishlistError) {
+    return <div className="text-center text-red-500">Error loading data</div>;
   }
 
   return (
     <div className="containerBox bg-[rgb(255,255,255)]">
+      {/* Zoomed Image Preview */}
       {isHovered && (
         <div
-          className="hidden md:block absolute top-[10%] right-[9%] w-[400px] h-[400px] lg:w-[700px]  lg:h-[600px] z-50 bg-cover bg-no-repeat "
+          className="hidden md:block absolute top-[10%] right-[9%] w-[400px] h-[400px] lg:w-[700px] lg:h-[600px] z-50 bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url('${mainImage}')`,
             backgroundSize: "200%",
@@ -63,102 +109,95 @@ const ProductDetailpage = () => {
             transition: "opacity 0.3s ease-in-out",
             opacity: 1,
             borderRadius: "20px",
-            // boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
           }}
         ></div>
       )}
-      <div>
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-wrap -mx-4">
-            {/* Product Images */}
-            <div className="w-full md:w-1/2 px-4 mb-8 relative">
-              <div
-                className="relative w-full h-auto"
-                style={{
-                  overflow: "hidden",
-                  borderRadius: "8px",
-                }}
-              >
-                <img
-                  src={mainImage}
-                  alt="Product"
-                  className="w-full h-auto rounded-lg shadow-md mb-4"
-                  id="mainImage"
-                  onMouseMove={handleMouseMove}
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                  style={{ transition: "transform 0.1s ease-out" }}
-                />
-              </div>
-              <div className="flex gap-4 py-4 justify-center overflow-x-auto">
-                {product_image &&
-                  product_image.map((image) => (
-                    <img
-                      src={`http://localhost:5000/${image}`}
-                      alt="Thumbnail 2"
-                      className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-                      onMouseMove={(e) => setMainImage(e.target.src)}
-                    />
-                  ))}
-              </div>
-            </div>
-            {/* Product Details */}
-            <div className="w-full md:w-1/2 px-10 md:px-4">
-              <h2 className="text-3xl font-bold mb-2">
-                {product.product_name}
-              </h2>
-              <p className="text-gray-600 mb-1">
-                category: {product?.category?.category_name}
-              </p>
-              <div className="mb-4">
-                <span className="text-2xl font-bold mr-2">
-                  Rs.{product.product_price}
-                </span>
-                <span className="text-gray-500 line-through">
-                  Rs.{product.product_price}
-                </span>
-              </div>
-              <p className="text-gray-700 mb-6">
-                {product.product_description}
-              </p>
 
-              <div className="mb-6">
-                <label
-                  htmlFor="quantity"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Quantity:
-                </label>
-                <input
-                  onChange={(e) => setQty(e.target.value)}
-                  type="number"
-                  id="quantity"
-                  name="quantity"
-                  min={1}
-                  max={product.countInStock}
-                  value={qty}
-                  className="w-12 text-center rounded-md border-gray-300  shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-wrap -mx-4">
+          {/* Product Images */}
+          <div className="w-full md:w-1/2 px-4 mb-8 relative">
+            <div className="relative w-full h-auto" style={{ overflow: "hidden", borderRadius: "8px" }}>
+              <img
+                src={mainImage}
+                alt="Product"
+                className="w-full h-auto rounded-lg shadow-md mb-4"
+                onMouseMove={handleMouseMove}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              />
+            </div>
+            <div className="flex gap-4 py-4 justify-center overflow-x-auto">
+              {product?.product_image?.map((image) => (
+                <img
+                  key={image}
+                  src={`http://localhost:5000/${image}`}
+                  alt="Thumbnail"
+                  className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+                  onMouseEnter={(e) => setMainImage(e.target.src)}
                 />
-              </div>
-              <div className="flex space-x-4 mb-6">
+              ))}
+            </div>
+          </div>
+
+          {/* Product Details */}
+          <div className="w-full md:w-1/2 px-10 md:px-4">
+            <h2 className="text-3xl font-bold mb-2">{product.product_name}</h2>
+            <p className="text-gray-600 mb-1">Category: {product?.category?.category_name}</p>
+            <div className="mb-4">
+              <span className="text-2xl font-bold mr-2">Rs.{product.product_price}</span>
+            </div>
+            <p className="text-gray-700 mb-6">{product.product_description}</p>
+
+            <div className="mb-6">
+              <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">
+                Quantity:
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                min={1}
+                max={product.countInStock}
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
+                className="w-12 text-center rounded-md border-gray-300 shadow-sm"
+              />
+            </div>
+
+            <div className="flex space-x-4 mb-6">
+              <button
+                onClick={addToCartHandler}
+                className="bg-[#735DA5] flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-[#563d91] focus:outline-none"
+              >
+                Add to Cart
+              </button>
+              {checkWishlistData() ? (
                 <button
-                  onClick={addtoCartHandler}
-                  className="bg-[#735DA5] flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-[#563d91] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  onClick={removeFromWishlist}
+                  className="bg-gradient-to-r from-gray-400 to-gray-600 flex gap-2 items-center text-white px-6 py-2 rounded-md"
                 >
-                  Add to Cart
+                  Clear Favourite
                 </button>
-              </div>
+              ) : (
+                <button
+                  onClick={addToWishlist}
+                  className="bg-gradient-to-r from-pink-500 to-red-400 flex gap-2 items-center text-white px-6 py-2 rounded-md"
+                >
+                  Add to Favourite
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
       <div className="bg-gray-100 py-2">
-        <h1 className="text-xl text-gray-700 px-5 font-medium ">You may also like</h1>
+        <h1 className="text-xl text-gray-700 px-5 font-medium">You may also like</h1>
         <Product />
       </div>
     </div>
   );
 };
 
-export default ProductDetailpage;
+export default ProductDetailPage;

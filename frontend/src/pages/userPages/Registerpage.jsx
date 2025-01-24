@@ -42,16 +42,16 @@ const Registerpage = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 mx-auto pb-[40px] pt-[42px]">
-        <div className="w-full bg-white rounded-lg shadow dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full bg-white rounded-lg shadow sm:max-w-md xl:p-0">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold text-gray-900 md:text-2xl">
               Register new account here
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
                   Name
                 </label>
                 <input
@@ -60,13 +60,13 @@ const Registerpage = () => {
                   type="text"
                   name="name"
                   id="name"
-                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5 dark:bg-gray-700"
+                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5"
                   placeholder="Enter your full name"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
                   Your email
                 </label>
                 <input
@@ -75,13 +75,13 @@ const Registerpage = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5 dark:bg-gray-700"
+                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5"
                   placeholder="test1@test.com"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
                   Password
                 </label>
                 <input
@@ -90,13 +90,13 @@ const Registerpage = () => {
                   type="password"
                   name="password"
                   id="password"
-                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5 dark:bg-gray-700"
+                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5"
                   placeholder="••••••••"
                   required
                 />
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900">
                   Confirm Password
                 </label>
                 <input
@@ -104,7 +104,7 @@ const Registerpage = () => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   type="password"
                   id="confirmPassword"
-                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5 dark:bg-gray-700"
+                  className="bg-gray-50 border text-gray-900 rounded-lg w-full p-2.5"
                   placeholder="Re-enter password"
                   required
                 />
@@ -119,9 +119,9 @@ const Registerpage = () => {
               >
                 {isLoading ? "Registering..." : "Register"}
               </button>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-gray-500">
                 Don’t have an account yet?{" "}
-                <Link to="/login" className="text-primary-600 hover:underline dark:text-primary-500">
+                <Link to="/login" className="text-primary-600 hover:underline">
                   Login
                 </Link>
               </p>

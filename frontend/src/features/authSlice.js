@@ -18,7 +18,7 @@ const authSlice = createSlice({
 
       localStorage.setItem("expirationTime", expirationTime);
     },
-    logoutf: (state, action) => {
+    logout: (state, action) => {
       state.userInfo = null;
       // localStorage.removeItem("userInfo");
       // localStorage.removeItem("expirationTime");
@@ -27,5 +27,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, logoutf } = authSlice.actions;
+export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;

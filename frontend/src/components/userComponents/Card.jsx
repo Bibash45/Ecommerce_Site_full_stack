@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Card = ({ name, description, price, image, productId }) => {
-  console.log(image);
 
   const imageUrl = `http://localhost:5000/${image[0]}`;
 

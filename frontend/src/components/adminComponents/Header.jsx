@@ -6,7 +6,7 @@ import { TbCategoryFilled } from "react-icons/tb";
 import { FaUsers } from "react-icons/fa";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { HiMiniInboxArrowDown } from "react-icons/hi2";
-import { logoutf } from "../../features/authSlice";
+import { logout } from "../../features/authSlice";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { TiPlus } from "react-icons/ti";
@@ -30,8 +30,8 @@ const Header = ({ isSidebarOpen, setIsSidebarOpen, toggleSidebar }) => {
   const handleLogOut = async (e) => {
     e.preventDefault();
     try {
-      const res = await logoutf();
-      dispatch(logoutf());
+      const res = await logout();
+      dispatch(logout());
       navigate("/login");
     } catch (error) {
       toast.error("Logout failed");

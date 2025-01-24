@@ -4,18 +4,18 @@ import { useGetCategoryQuery } from "../../features/categoryApiSlice";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetProductDetailsQuery } from "../../features/productApiSlice";
 
 const UpdateProduct = () => {
+  const navigate = useNavigate();
   const { productId } = useParams();
   const { userInfo } = useSelector((state) => state.auth || {});
   const { token } = userInfo || {};
 
   const { data: categoryList, isLoading: categoryListLoading } =
     useGetCategoryQuery({ token });
-    console.log(categoryList);
-    
+  console.log(categoryList);
 
   const { data: productDetail, isLoading: productDetailLoading } =
     useGetProductDetailsQuery(productId);
@@ -144,6 +144,7 @@ const UpdateProduct = () => {
         product_image: [],
         category: "",
       });
+      navigate("/admin/product/list");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error updating product");
     } finally {
