@@ -21,7 +21,7 @@ const productSchema = mongoose.Schema(
     },
     product_image: [
       {
-        type: String, // Each string represents an image URL or path
+        type: String,
         required: true,
       },
     ],

@@ -23,6 +23,8 @@ import {
   AdminProductList,
   AdminProductpage,
   Dashboardpage,
+  OrderDetails,
+  UpdateProduct,
 } from "./pages/adminPages";
 import MyOrders from "./pages/userPages/MyOrders";
 
@@ -91,8 +93,8 @@ const router = createBrowserRouter([
         element: <AdminAddProductpage />,
       },
       {
-        path: "product/update",
-        element: <AdminAddProductpage />,
+        path: "product/update/:productId",
+        element: <UpdateProduct />,
       },
       {
         path: "product/list",
@@ -117,6 +119,10 @@ const router = createBrowserRouter([
       {
         path: "orders",
         element: <AdminOrders />,
+      },
+      {
+        path: "orders/details/:orderId",
+        element: <OrderDetails />,
       },
     ],
   },

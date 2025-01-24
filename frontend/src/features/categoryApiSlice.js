@@ -38,6 +38,18 @@ export const categoryApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Category"],
       keepUnusedDataFor: 5,
     }),
+    updateCategory: builder.mutation({
+      query: ({ categoryId,category_name, token }) => ({
+        url: `/updatecategory/${categoryId}`,
+        method: "PUT",
+        body: {category_name},
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Category"],
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -45,4 +57,5 @@ export const {
   useGetCategoryQuery,
   usePostCategoryMutation,
   useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
 } = categoryApiSlice;

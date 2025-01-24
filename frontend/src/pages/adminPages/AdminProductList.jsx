@@ -1,18 +1,42 @@
 import React, { CSSProperties } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useGetProductsQuery } from "../../features/productApiSlice";
+import {
+  useDeleteProductMutation,
+  useGetProductsQuery,
+} from "../../features/productApiSlice";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const AdminProductList = () => {
-  const { data: productlist, isLoading: productlistLoading } =
-    useGetProductsQuery();
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const { token } = userInfo || {};
+  const {
+    data: productlist,
+    isLoading: productlistLoading,
+    refetch,
+  } = useGetProductsQuery();
   const override: CSSProperties = {
     display: "block",
     margin: "10% auto",
     borderColor: "red",
     position: "center",
   };
+
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation();
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await deleteProduct({ productId, token }).unwrap();
+      toast.success(response?.message);
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   if (productlistLoading) {
     return (
       <ClipLoader
@@ -88,14 +112,16 @@ const AdminProductList = () => {
                     <td className="px-6 py-4">{product.product_description}</td>
                     <td className="px-6 py-4">{product.product_price}</td>
                     <td className="px-6 py-4">
-                      <div className="flex gap-4">
-                        <button
+                      <div className="flex gap-5">
+                        <Link
+                        to={`/admin/product/update/${product._id}`}
                           className="hover:mr-2 transition-all duration-300 ease-in-out"
                           type="button"
                         >
                           <BiEdit color="purple" size={30} />
-                        </button>
+                        </Link>
                         <button
+                          onClick={() => handleDelete(product._id)}
                           className="hover:ml-2 transition-all duration-300 ease-in-out"
                           type="button"
                         >

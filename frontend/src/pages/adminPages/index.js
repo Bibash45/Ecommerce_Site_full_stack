@@ -4,5 +4,17 @@ import AdminAddProductpage from "./AdminAddProductpage";
 import AdminAddCategorypage from "./AdminAddCategorypage";
 import AdminProductList from "./AdminProductList";
 import AdminCategoryListpage from "./AdminCategoryListpage";
+import UpdateProduct from "./UpdateProduct";
 import AdminOrders from "./AdminOrders";
-export { AdminProductpage, Dashboardpage,AdminAddProductpage,AdminAddCategorypage,AdminProductList,AdminCategoryListpage,AdminOrders };
+import OrderDetails from "./OrderDetails";
+export {
+  AdminProductpage,
+  Dashboardpage,
+  AdminAddProductpage,
+  AdminAddCategorypage,
+  AdminProductList,
+  AdminCategoryListpage,
+  AdminOrders,
+  UpdateProduct,
+  OrderDetails
+};

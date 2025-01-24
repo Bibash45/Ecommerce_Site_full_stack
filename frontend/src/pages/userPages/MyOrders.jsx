@@ -37,7 +37,7 @@ const MyOrders = () => {
   }
 
   return (
-    <div className="min-h-[550px]  py-10 px-4">
+    <div className="min-h-[calc(100vh-87.98px)]  py-10 px-4">
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-400">
         My Orders
       </h1>

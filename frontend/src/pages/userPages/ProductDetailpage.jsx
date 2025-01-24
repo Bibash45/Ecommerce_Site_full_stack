@@ -102,7 +102,7 @@ const ProductDetailpage = () => {
               </div>
             </div>
             {/* Product Details */}
-            <div className="w-full md:w-1/2 px-4">
+            <div className="w-full md:w-1/2 px-10 md:px-4">
               <h2 className="text-3xl font-bold mb-2">
                 {product.product_name}
               </h2>
@@ -120,14 +120,7 @@ const ProductDetailpage = () => {
               <p className="text-gray-700 mb-6">
                 {product.product_description}
               </p>
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-2">Color:</h3>
-                <div className="flex space-x-2">
-                  <button className="w-8 h-8 bg-black rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" />
-                  <button className="w-8 h-8 bg-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300" />
-                  <button className="w-8 h-8 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" />
-                </div>
-              </div>
+
               <div className="mb-6">
                 <label
                   htmlFor="quantity"
@@ -153,18 +146,6 @@ const ProductDetailpage = () => {
                 >
                   Add to Cart
                 </button>
-                <button className="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                  Wishlist
-                </button>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Key Features:</h3>
-                <ul className="list-disc list-inside text-gray-700">
-                  <li>Industry-leading noise cancellation</li>
-                  <li>30-hour battery life</li>
-                  <li>Touch sensor controls</li>
-                  <li>Speak-to-chat technology</li>
-                </ul>
               </div>
             </div>
           </div>

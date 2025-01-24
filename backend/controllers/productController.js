@@ -46,55 +46,54 @@ exports.postProduct = async (req, res) => {
 
 // update product
 exports.updateProduct = async (req, res) => {
-  // Check if files are uploaded
-  let newImagePaths = [];
-  if (req.files && req.files.length > 0) {
-    // If new images are uploaded, map the file paths
-    newImagePaths = req.files.map((file) => file.path);
-  }
-
-  // Get the existing product from the database
-  let product = await Product.findById(req.params.id);
-
-  if (!product) {
-    return res.status(404).json({ error: "Product not found" });
-  }
-
-  // If user wants to remove specific images
-  if (req.body.imagesToRemove) {
-    const imagesToRemove = req.body.imagesToRemove; // Array of image paths to remove
-    product.product_image = product.product_images.filter(
-      (image) => !imagesToRemove.includes(image)
-    );
-  }
-
-  // If new images are uploaded, update the images array
-  if (newImagePaths.length > 0) {
-    // Add new images to the existing ones
-    product.product_images.push(...newImagePaths);
-  }
-
-  // Update the rest of the product fields
-  product.product_name = req.body.product_name.toLowerCase();
-  product.product_price = req.body.product_price;
-  product.countInStock = req.body.countInStock;
-  product.product_description = req.body.product_description;
-  product.category = req.body.category;
-
-  // Save the updated product
   try {
-    product = await product.save();
+    // Check if files are uploaded
+    let newImagePaths = [];
+    if (req.files && req.files.length > 0) {
+      newImagePaths = req.files.map((file) => file.path);
+    }
+
+    // Get the existing product from the database
+    let product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    // Remove specific images if requested
+    if (req.body.imagesToRemove) {
+      const imagesToRemove = JSON.parse(req.body.imagesToRemove); // Parse array from string
+      product.product_image = product.product_image.filter(
+        (image) => !imagesToRemove.includes(image)
+      );
+    }
+
+    // Add new images if uploaded
+    if (newImagePaths.length > 0) {
+      product.product_image.push(...newImagePaths);
+    }
+
+    // Update the rest of the fields
+    product.product_name = req.body.product_name.toLowerCase();
+    product.product_price = req.body.product_price;
+    product.countInStock = req.body.countInStock;
+    product.product_description = req.body.product_description;
+    product.category = req.body.category;
+
+    // Save updated product
+    const updatedProduct = await product.save();
     return res.status(200).json({
       message: "Product updated successfully",
-      updatedProduct: product, // Return the updated product
+      updatedProduct,
     });
   } catch (err) {
-    return res.status(400).json({
+    return res.status(500).json({
       error: "Failed to update product",
       details: err.message,
     });
   }
 };
+
 
 // delete product by id
 exports.deleteProduct = async (req, res) => {

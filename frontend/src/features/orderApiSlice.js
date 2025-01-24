@@ -39,6 +39,18 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       providesTags: ["Orders"],
       keepUnusedDataFor: 5,
     }),
+    getOrderDetails: builder.query({
+      query: ({ token , orderId}) => ({
+        url: `/orderdetails/${orderId}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["Orders"],
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -46,4 +58,5 @@ export const {
   useGetMyOrdersQuery,
   useOnCashOrderMutation,
   useGetAllOrdersQuery,
+  useGetOrderDetailsQuery,
 } = orderApiSlice;

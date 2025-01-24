@@ -26,14 +26,16 @@ const Card = ({ name, description, price, image, productId }) => {
           {name}
         </h2>
         <p className="mb-1 text-base dark:text-gray-300 text-gray-700">
-          {description.substring(0,29)}....
+          {description.length > 29
+            ? `${description.substring(0, 29)}....`
+            : description}
         </p>
         <div className="flex items-center">
-          <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">
+          <p className="mr-2 text-lg font-semibold text-[#735DA5] 3dark:text-white">
             Rs.{price}
           </p>
           <p className="text-base  font-medium text-gray-500 line-through dark:text-gray-300">
-            $25.00
+            Rs.25.00
           </p>
           <p className="ml-auto text-base font-medium text-green-500">
             20% off

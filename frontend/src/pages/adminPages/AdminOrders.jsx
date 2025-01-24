@@ -7,6 +7,7 @@ import { FcPaid } from "react-icons/fc";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { FaEye } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const AdminOrders = () => {
   const { userInfo } = useSelector((state) => state.auth || {});
@@ -104,19 +105,20 @@ const AdminOrders = () => {
                     <td className="px-6 py-4">{order.totalPrice}</td>
                     <td className="px-6 py-4">{order.method}</td>
                     <td className="px-6 py-4">
-                      {order.status === "completed" ? <FcPaid size={25} /> : <RxCross2 size={25} />}
+                      {order.status === "completed" ? <FcPaid size={25} /> : <RxCross2 size={25} color="red" />}
                     </td>
                     <td className="px-6 py-4">
-                      {order.delivered ? "Delivered" : "Not Delivered"}
+                      {order.delivered ? <p className="font-bold text-green-600">Delivered</p> : <RxCross2 size={25} color="red" />}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex gap-4">
-                        <button
+                        <Link
+                        to={`/admin/orders/details/${order._id}`}
                           className="hover:mr-2 transition-all duration-300 ease-in-out bg-yellow-300 px-2 py-[1px] rounded-md"
                           type="button"
                         >
                           <FaEye color="black" size={17} />
-                        </button>
+                        </Link>
                       </div>
                     </td>
                   </tr>

@@ -72,14 +72,28 @@ exports.orderList = async (req, res) => {
 
 // orderdetails
 exports.orderDetails = async (req, res) => {
-  let order = await Order.findById({
-    _id: req.params.id,
-  });
-  if (!order) {
-    return res.status(400).json({ error: "Order not found" });
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate({
+        path: "orderItems",
+        populate: {
+          path: "product",
+          model: "Product",
+        },
+      });
+
+    console.log("Populated Order:", order); // Check the populated order
+    if (!order) {
+      return res.status(400).json({ error: 'Order not found' });
+    }
+
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
   }
-  return res.status(200).json(order);
 };
+
 
 // order list of specific user
 exports.userOrders = async (req, res) => {
