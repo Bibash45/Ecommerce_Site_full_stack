@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../features/cartSlice";
 import { toast } from "react-toastify";
+import { Product } from "../../components/userComponents";
 
 const ProductDetailpage = () => {
   const dispatch = useDispatch();
@@ -150,6 +151,11 @@ const ProductDetailpage = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="bg-gray-100 py-2">
+        <h1 className="text-xl text-gray-700 px-5 font-medium ">You may also like</h1>
+        <Product />
       </div>
     </div>
   );

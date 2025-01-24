@@ -175,7 +175,7 @@ export default function Navbar() {
               <Link
                 to="/login"
                 type="button"
-                className="text-white bg-gradient-to-r from-[#D3C5E5] via-[#735DA5] to-[#3c2e5b] hover:bg-gradient-to-br focus:ring-1 focus:outline-none focus:ring-blue-300  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-sm mt-1"
+                className="text-white font-semibold bg-gradient-to-r from-[#ffde21] via-[#e0bc00] to-[#ffde21] hover:bg-gradient-to-br focus:ring-1 focus:outline-none focus:ring-blue-300  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 shadow-sm mt-1"
               >
                 Login
               </Link>
