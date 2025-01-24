@@ -22,6 +22,7 @@ import {
   AdminOrders,
   AdminProductList,
   AdminProductpage,
+  CustomerPage,
   Dashboardpage,
   OrderDetails,
   UpdateProduct,
@@ -123,6 +124,10 @@ const router = createBrowserRouter([
       {
         path: "orders/details/:orderId",
         element: <OrderDetails />,
+      },
+      {
+        path: "customers",
+        element: <CustomerPage />,
       },
     ],
   },

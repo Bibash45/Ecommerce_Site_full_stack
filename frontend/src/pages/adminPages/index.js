@@ -7,6 +7,7 @@ import AdminCategoryListpage from "./AdminCategoryListpage";
 import UpdateProduct from "./UpdateProduct";
 import AdminOrders from "./AdminOrders";
 import OrderDetails from "./OrderDetails";
+import CustomerPage from "./CustomerPage";
 export {
   AdminProductpage,
   Dashboardpage,
@@ -16,5 +17,6 @@ export {
   AdminCategoryListpage,
   AdminOrders,
   UpdateProduct,
-  OrderDetails
+  OrderDetails,
+  CustomerPage
 };

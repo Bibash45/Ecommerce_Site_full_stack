@@ -15,6 +15,11 @@ const userSchema = mongoose.Schema(
       trim: true,
       unique: true,
     },
+    image: {
+      type: String,
+      default: "public/profile_default/neymar.jpg",
+      required: true,
+    },
     hashed_password: {
       type: String,
       required: true,

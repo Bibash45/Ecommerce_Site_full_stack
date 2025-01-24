@@ -30,6 +30,7 @@ app.use(
 );
 
 app.use("/public/uploads", express.static("public/uploads"));
+app.use("/public/profile_default", express.static("public/profile_default"));
 
 // router for user
 app.use("/api", userRoute);

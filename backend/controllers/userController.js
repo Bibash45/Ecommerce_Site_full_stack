@@ -144,6 +144,7 @@ exports.signin = async (req, res) => {
         role: user.role,
         email: user.email,
         _id: user._id,
+        image: user.image,
       },
     });
   } catch (error) {

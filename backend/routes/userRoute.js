@@ -36,7 +36,7 @@ router.route("/logout").post(logout);
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetpassword/:token").post(resetPassword);
 
-router.route("/userlist").get(requireSignin, requireUser, userList);
+router.route("/userlist").get(requireSignin, requireAdmin, userList);
 
 router.route("/userdetails/:id").get(requireSignin, requireAdmin, userDetails);
 

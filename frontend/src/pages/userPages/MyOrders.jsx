@@ -5,6 +5,7 @@ import { FcPaid } from "react-icons/fc";
 import { RxCross1 } from "react-icons/rx";
 import { format } from "date-fns";
 import { Product } from "../../components/userComponents";
+import { Navigate } from "react-router-dom";
 
 const MyOrders = () => {
   const { token = "", user = {} } = useSelector(
@@ -19,6 +20,13 @@ const MyOrders = () => {
     error: myOrdersError,
   } = useGetMyOrdersQuery({ userId, token });
   console.log(myOrders);
+
+
+  if (
+    !(token && user) 
+  ) {
+    return <Navigate to="/login" />;
+  }
 
   if (myOrdersLoading) {
     return <div>Loading...</div>;

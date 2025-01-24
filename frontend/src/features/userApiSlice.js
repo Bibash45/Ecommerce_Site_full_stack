@@ -36,8 +36,12 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     getUsers: builder.query({
-      query: () => ({
+      query: ({ token }) => ({
         url: "/userlist",
+        method: "GEt",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
       providesTags: ["Users"],
       keepUnusedDataFor: 5,
@@ -71,12 +75,7 @@ export const {
   useRegisterMutation,
   useProfileMutation,
   useGetUsersQuery,
-  useDeleteUserMutation,
   useGetUserDetailsQuery,
-  useUpdateUserMutation,
-  useVerifyUserMutation,
-  useGoogleLoginMutation,
-  useResendCodeMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useConfirmEmailMutation,

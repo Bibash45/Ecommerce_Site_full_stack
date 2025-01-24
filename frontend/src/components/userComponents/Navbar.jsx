@@ -53,7 +53,6 @@ export default function Navbar() {
       {/* Navbar Container */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
               <img
@@ -122,10 +121,10 @@ export default function Navbar() {
             {userInfo && userInfo.user ? (
               <Menu as="div" className="relative">
                 <div>
-                  <MenuButton className="flex rounded-full bg-gray-800 text-sm  ">
+                  <MenuButton className="flex rounded-full bg-white text-sm  ">
                     <img
-                      className="h-8 w-8 rounded-full"
-                      src="https://e0.365dm.com/21/07/768x432/skysports-neymar-la-liga-barcelona_5459434.jpg?20210726203533"
+                      className="h-[38px] w-[38px] rounded-full object-contain object-center "
+                      src={`http://localhost:5000/${userInfo.user.image}`}
                       alt=""
                     />
                   </MenuButton>
