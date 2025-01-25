@@ -1,76 +1,106 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  useDeleteMyWishlistMutation,
+  useGetMyWishlistQuery,
+} from "../../features/wishlistApiSlice";
+import { addToCart } from "../../features/cartSlice";
 
 const WishlistPage = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    // Example Wishlist Items (Replace with real data from your API or state)
-    {
-      id: 1,
-      name: "Product 1",
-      price: 29.99,
-      imageUrl: "/path-to-image1.jpg",
-      description: "Short description of Product 1",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 49.99,
-      imageUrl: "/path-to-image2.jpg",
-      description: "Short description of Product 2",
-    },
-  ]);
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const { token } = userInfo || {};
+  const { _id: userId } = userInfo?.user || {};
+  const [qty, setQty] = useState(1);
 
-  const removeFromWishlist = (id) => {
-    setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    toast.success("Item removed from wishlist!");
+  const {
+    data: wishlistData,
+    isLoading: wishlistLoading,
+    error: wishlistError,
+    refetch: refetchWishlist,
+  } = useGetMyWishlistQuery({ userId, token });
+
+  const [deleteWishlist, { isLoading: deleteWishlistLoading }] =
+    useDeleteMyWishlistMutation();
+
+  const removeFromWishlist = async (productId) => {
+    try {
+      await deleteWishlist({ token, userId, productId }).unwrap();
+      refetchWishlist();
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
   };
 
-  const addToCart = (item) => {
-    // Logic to add item to cart (e.g., update global state or localStorage)
-    toast.success(`${item.name} added to cart!`);
-  };
+  if (!(token && userInfo.user)) {
+    return <Navigate to="/login" />;
+  }
+
+  if (wishlistLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <section className="bg-gray-50 min-h-screen py-6">
+    <section className="bg-gray-50 min-h-[calc(100vh-375px)] py-6">
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Your Wishlist</h1>
+        {/* View Cart Button */}
+        {wishlistData?.products.length > 0 && (
+          <div className=" containerBox flex justify-between items-center pb-6   underline underline-offset-2">
+            <Link
+              to="/cart"
+              className="text-xl font-semibold text-black hover:underline"
+            >
+              Go to Cart
+            </Link>
+          </div>
+        )}
+        <h1 className="text-2xl font-bold text-gray-600 mb-6">Your Wishlist</h1>
 
         {/* Empty Wishlist Message */}
-        {wishlistItems.length === 0 ? (
+        {wishlistData?.products.length === 0 ? (
           <div className="text-center">
             <p className="text-gray-600 mb-4">Your wishlist is empty.</p>
-            <Link to="/shop" className="text-blue-600 hover:underline">
+            <Link to="/" className="text-blue-600 hover:underline">
               Browse products
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {/* Wishlist Items */}
-            {wishlistItems.map((item) => (
+            {wishlistData?.products.map((item) => (
               <div
-                key={item.id}
+                key={item.productId._id}
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-xl font-semibold text-gray-800">{item.name}</h3>
+                <Link to={`/product/${item.productId._id}`}>
+                  <img
+                    src={`http://localhost:5000/${item.productId.product_image[0]}`}
+                    alt={item.name}
+                    className="w-full h-48 object-cover object-center transform hover:scale-x-[-1]"
+                  />
+                </Link>
+                <div className="p-2 flex justify-between items-center">
+                  <h3 className="text-xl font-semibold text-gray-800">
+                    {item.productId.product_name}
+                  </h3>
                   <p className="text-sm text-gray-500">{item.description}</p>
-                  <p className="text-lg font-bold text-gray-800">${item.price}</p>
+                  <p className="text-md font-semibold text-[#735DA5]">
+                    Rs.{item.productId.product_price}
+                  </p>
                 </div>
                 <div className="p-4 flex justify-between items-center">
                   <button
-                    onClick={() => addToCart(item)}
-                    className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                    onClick={() => {
+                      dispatch(addToCart({ ...item.productId, qty: 1 }));
+                    }}
+                    className="bg-[#735DA5] text-white py-2 px-4 rounded-lg hover:bg-[#604d8b]"
                   >
                     Add to Cart
                   </button>
                   <button
-                    onClick={() => removeFromWishlist(item.id)}
+                    onClick={() => removeFromWishlist(item.productId._id)}
                     className="text-red-600 hover:text-red-800"
                   >
                     Remove
@@ -78,18 +108,6 @@ const WishlistPage = () => {
                 </div>
               </div>
             ))}
-          </div>
-        )}
-
-        {/* View Cart Button */}
-        {wishlistItems.length > 0 && (
-          <div className="flex justify-between items-center mt-6">
-            <Link
-              to="/cart"
-              className="text-xl font-semibold text-blue-600 hover:underline"
-            >
-              Go to Cart
-            </Link>
           </div>
         )}
       </div>

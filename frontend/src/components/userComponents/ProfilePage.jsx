@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 
 const ProfilePage = () => {
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const { token } = userInfo || {};
   const orderHistory = [
     { id: 12345, status: "Delivered", date: "2025-01-01" },
     { id: 12346, status: "Shipped", date: "2025-01-15" },
@@ -18,6 +22,10 @@ const ProfilePage = () => {
       type: "Work",
     },
   ];
+
+  if (!(token && userInfo.user)) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -39,11 +47,13 @@ const ProfilePage = () => {
             <div className="flex flex-col items-center">
               <img
                 className="w-24 h-24 rounded-full object-cover"
-                src="https://via.placeholder.com/150"
+                src={`http://localhost:5000/${userInfo?.user?.image}`}
                 alt="Profile"
               />
-              <h2 className="mt-4 text-xl font-semibold text-gray-700">John Doe</h2>
-              <p className="text-gray-500">johndoe@example.com</p>
+              <h2 className="mt-4 text-xl font-semibold text-gray-700">
+                John Doe
+              </h2>
+              <p className="text-gray-500">{userInfo?.user?.email}</p>
               <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-4 hover:bg-blue-600">
                 Edit Profile
               </button>
@@ -54,7 +64,7 @@ const ProfilePage = () => {
                 🛒 Order History
               </li>
               <li className="text-gray-700 font-medium cursor-pointer hover:text-blue-500">
-                ❤️ Wishlist
+                <Link to="/favourites">❤️ Wishlist</Link>
               </li>
               <li className="text-gray-700 font-medium cursor-pointer hover:text-blue-500">
                 📍 Saved Addresses
@@ -68,15 +78,21 @@ const ProfilePage = () => {
           {/* Main Profile Content */}
           <div className="bg-white w-full lg:w-3/4 p-6 rounded-lg shadow">
             {/* Account Details */}
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Account Details</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+              Account Details
+            </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-600">Full Name</p>
-                <p className="text-gray-800 font-medium">John Doe</p>
+                <p className="text-gray-800 font-medium">
+                  {userInfo?.user?.name}
+                </p>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-gray-600">Email</p>
-                <p className="text-gray-800 font-medium">johndoe@example.com</p>
+                <p className="text-gray-800 font-medium">
+                  {userInfo?.user?.email}
+                </p>
               </div>
               <div className="flex justify-between items-center">
                 <p className="text-gray-600">Phone Number</p>
@@ -86,7 +102,9 @@ const ProfilePage = () => {
             <hr className="my-6" />
 
             {/* Order History */}
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Order History</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+              Order History
+            </h3>
             <ul className="space-y-3">
               {orderHistory.map((order) => (
                 <li
@@ -112,7 +130,9 @@ const ProfilePage = () => {
             <hr className="my-6" />
 
             {/* Saved Addresses */}
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Saved Addresses</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+              Saved Addresses
+            </h3>
             <ul className="space-y-4">
               {addresses.map((address) => (
                 <li
@@ -120,17 +140,23 @@ const ProfilePage = () => {
                   className="flex justify-between items-center bg-gray-100 p-4 rounded-lg"
                 >
                   <div>
-                    <p className="text-gray-800 font-medium">{address.address}</p>
+                    <p className="text-gray-800 font-medium">
+                      {address.address}
+                    </p>
                     <p className="text-gray-500 text-sm">{address.type}</p>
                   </div>
-                  <button className="text-red-500 hover:underline">Remove</button>
+                  <button className="text-red-500 hover:underline">
+                    Remove
+                  </button>
                 </li>
               ))}
             </ul>
 
             {/* Wishlist Section */}
             <hr className="my-6" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">Wishlist</h3>
+            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+              Wishlist
+            </h3>
             <ul className="space-y-3">
               <li className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
                 <p className="text-gray-600">Product 1</p>
