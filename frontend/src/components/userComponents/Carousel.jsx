@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import image1 from "../../assets/images/bann.jpg";
+import image2 from "../../assets/images/banner.jpg";
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [timer, setTimer] = useState(null);
 
-  const images = [image1, image1, image1, image1, image1];
+  const images = [image1, image2, image1, image2];
 
   const handleNext = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);

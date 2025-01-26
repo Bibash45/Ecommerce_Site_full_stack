@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema(
       trim: true,
       unique: true,
     },
+    address: {
+      type: String,
+      trim: true,
+    },
     image: {
       type: String,
       default: "public/profile_default/neymar.jpg",
