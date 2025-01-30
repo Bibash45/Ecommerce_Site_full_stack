@@ -19,6 +19,7 @@ const {
   userList,
   userDetails,
   logout,
+  updateUser,
 } = require("../controllers/userController");
 const {
   requireSignin,
@@ -32,6 +33,7 @@ router
   .post(userValidation, passwordValidation, validation, postUser);
 router.route("/confirmation/:token").post(postEmailConfirmation);
 router.route("/login").post(passwordValidation, signin);
+router.route("/updateuser/:userId").put(requireSignin, updateUser);
 router.route("/logout").post(logout);
 router.route("/forgotpassword").post(forgotPassword);
 router.route("/resetpassword/:token").post(resetPassword);

@@ -1,6 +1,6 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { ProfilePage, Userlayout } from "./components/userComponents";
+import {  Userlayout } from "./components/userComponents";
 import {
   Cartpage,
   CompletePaymentPage,
@@ -14,6 +14,7 @@ import {
   Registerpage,
   Shippingpage,
   FavouritesPage,
+  ProfilePage,
 } from "./pages/userPages";
 import { Adminlayout, Header } from "./components/adminComponents";
 import {

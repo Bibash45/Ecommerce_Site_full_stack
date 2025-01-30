@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useGetMyOrdersQuery } from "../../features/orderApiSlice";
 import { format } from "date-fns";
 import { useGetMyWishlistQuery } from "../../features/wishlistApiSlice";
+import { useUpdateUserMutation } from "../../features/userApiSlice"; // FIXED: Correct mutation
 
 const ProfilePage = () => {
   const { userInfo } = useSelector((state) => state.auth || {});
@@ -17,23 +18,18 @@ const ProfilePage = () => {
   const { data: wishlistData, isLoading: wishlistLoading } =
     useGetMyWishlistQuery({ userId: userInfo?.user?._id, token });
 
+  const [updateUser, { isLoading: updateUserLoading }] =
+    useUpdateUserMutation(); // FIXED: Correct mutation
+
   const [isEditing, setIsEditing] = useState(false);
   const [updatedDetails, setUpdatedDetails] = useState({
-    name: userInfo?.user?.name,
-    email: userInfo?.user?.email,
-    address: userInfo?.user?.address,
+    name: userInfo?.user?.name || "",
+    email: userInfo?.user?.email || "",
+    address: userInfo?.user?.address || "",
   });
 
-  if (!(token && userInfo.user)) {
+  if (!(token && userInfo?.user)) {
     return <Navigate to="/login" />;
-  }
-
-  if (myOrdersLoading || wishlistLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-gray-600 text-lg">Loading...</p>
-      </div>
-    );
   }
 
   const handleInputChange = (e) => {
@@ -44,11 +40,22 @@ const ProfilePage = () => {
     }));
   };
 
-  const handleSave = () => {
-    console.log("Updated Details:", updatedDetails);
-    setIsEditing(false);
-    // Add API call here to save the updated details.
+  const handleSave = async () => {
+    try {
+      await updateUser({userId:userInfo.user._id, token, ...updatedDetails }).unwrap();
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Update failed", error);
+    }
   };
+
+  if (myOrdersLoading || wishlistLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-gray-600 text-lg">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gradient-to-br from-gray-100 to-gray-300 min-h-screen">
@@ -59,7 +66,11 @@ const ProfilePage = () => {
             <div className="flex flex-col items-center">
               <img
                 className="w-24 h-24 rounded-full object-cover"
-                src={`http://localhost:5000/${userInfo?.user?.image}`}
+                src={
+                  userInfo?.user?.image
+                    ? `http://localhost:5000/${userInfo?.user?.image}`
+                    : "/default-profile.png" // FIXED: Default Image
+                }
                 alt="Profile"
               />
               <h2 className="mt-4 text-2xl font-bold text-gray-800">
@@ -102,7 +113,6 @@ const ProfilePage = () => {
 
           {/* Main Content */}
           <section className="bg-white w-full lg:w-3/4 p-6 rounded-2xl shadow-lg">
-            {/* Account Details */}
             <h3 className="text-2xl font-bold text-gray-800 mb-6">
               Account Details
             </h3>
@@ -117,7 +127,7 @@ const ProfilePage = () => {
                 {
                   label: "Address",
                   name: "address",
-                  value: updatedDetails.address || "please add an address !!",
+                  value: updatedDetails.address || "Please add an address !!",
                 },
               ].map((detail) => (
                 <div
@@ -139,7 +149,15 @@ const ProfilePage = () => {
                 </div>
               ))}
             </div>
-
+            {isEditing && (
+              <div className="flex justify-between items-center mt-3">
+                <p className="text-gray-600">Change Image</p>
+                <input
+                  className="border border-gray-300 rounded-md px-4 py-1 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none w-[219px]"
+                  type="file"
+                />
+              </div>
+            )}
             {isEditing && (
               <div className="mt-6 flex justify-end space-x-4">
                 <button
@@ -164,31 +182,38 @@ const ProfilePage = () => {
               Order History
             </h3>
             <ul className="space-y-4">
-              {myOrders.slice(0, 4).map((order) => {
-                const formattedDate = format(new Date(order.createdAt), "PPpp");
-                return (
-                  <li
-                    key={order._id}
-                    className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md"
-                  >
-                    <div>
-                      <p className="text-gray-600">Order #{order._id}</p>
-                      <p className="text-gray-500 text-sm">
-                        Date: {formattedDate}
-                      </p>
-                    </div>
-                    <p
-                      className={`font-medium ${
-                        order.status === "completed"
-                          ? "text-green-500"
-                          : "text-yellow-500"
-                      }`}
+              {myOrders && myOrders.length > 0 ? (
+                myOrders.slice(0, 4).map((order) => {
+                  const formattedDate = format(
+                    new Date(order.createdAt),
+                    "PPpp"
+                  );
+                  return (
+                    <li
+                      key={order._id}
+                      className="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-md"
                     >
-                      {order.status}
-                    </p>
-                  </li>
-                );
-              })}
+                      <div>
+                        <p className="text-gray-600">Order #{order._id}</p>
+                        <p className="text-gray-500 text-sm">
+                          Date: {formattedDate}
+                        </p>
+                      </div>
+                      <p
+                        className={`font-medium ${
+                          order.status === "completed"
+                            ? "text-green-500"
+                            : "text-yellow-500"
+                        }`}
+                      >
+                        {order.status}
+                      </p>
+                    </li>
+                  );
+                })
+              ) : (
+                <p>No orders found !!!</p>
+              )}
             </ul>
           </section>
         </div>

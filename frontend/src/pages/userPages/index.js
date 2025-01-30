@@ -9,6 +9,7 @@ import Shippingpage from "./Shippingpage";
 import Confirmpage from "./Confirmpage";
 import CompletePaymentPage from "./CompletePaymentPage";
 import FailurePaymentPage from "./FailurePaymentPage";
+import ProfilePage from "./ProfilePage";
 import FavouritesPage from "./FavouritesPage";
 export {
   Homepage,
@@ -22,5 +23,6 @@ export {
   Confirmpage,
   CompletePaymentPage,
   FailurePaymentPage,
-  FavouritesPage
+  FavouritesPage,
+  ProfilePage,
 };

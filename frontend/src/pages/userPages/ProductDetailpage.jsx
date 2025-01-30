@@ -37,10 +37,11 @@ const ProductDetailPage = () => {
     isLoading: wishlistLoading,
     error: wishlistError,
     refetch: refetchWishlist,
-  } = useGetMyWishlistQuery({ userId, token });
+  } = useGetMyWishlistQuery({ userId, token }, { skip: !userId || !token });
 
   const [createWishlist, { isLoading: createWishlistLoading }] =
     useCreateWishlistMutation();
+
 
   const [deleteWishlist, { isLoading: deleteWishlistLoading }] =
     useDeleteMyWishlistMutation();
@@ -64,6 +65,9 @@ const ProductDetailPage = () => {
   };
 
   const addToWishlist = async () => {
+    if (!userInfo) {
+      return navigate("/login");
+    }
     try {
       await createWishlist({ userId, productId, token }).unwrap();
       refetchWishlist();
@@ -87,7 +91,12 @@ const ProductDetailPage = () => {
     );
   };
 
-  if (productLoading || wishlistLoading || createWishlistLoading || deleteWishlistLoading) {
+  if (
+    productLoading ||
+    wishlistLoading ||
+    createWishlistLoading ||
+    deleteWishlistLoading
+  ) {
     return <div className="text-center">Loading...</div>;
   }
 
@@ -117,7 +126,10 @@ const ProductDetailPage = () => {
         <div className="flex flex-wrap -mx-4">
           {/* Product Images */}
           <div className="w-full md:w-1/2 px-4 mb-8 relative">
-            <div className="relative w-full h-auto" style={{ overflow: "hidden", borderRadius: "8px" }}>
+            <div
+              className="relative w-full h-auto"
+              style={{ overflow: "hidden", borderRadius: "8px" }}
+            >
               <img
                 src={mainImage}
                 alt="Product"
@@ -143,14 +155,21 @@ const ProductDetailPage = () => {
           {/* Product Details */}
           <div className="w-full md:w-1/2 px-10 md:px-4">
             <h2 className="text-3xl font-bold mb-2">{product.product_name}</h2>
-            <p className="text-gray-600 mb-1">Category: {product?.category?.category_name}</p>
+            <p className="text-gray-600 mb-1">
+              Category: {product?.category?.category_name}
+            </p>
             <div className="mb-4">
-              <span className="text-2xl font-bold mr-2">Rs.{product.product_price}</span>
+              <span className="text-2xl font-bold mr-2">
+                Rs.{product.product_price}
+              </span>
             </div>
             <p className="text-gray-700 mb-6">{product.product_description}</p>
 
             <div className="mb-6">
-              <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="quantity"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Quantity:
               </label>
               <input
@@ -193,7 +212,9 @@ const ProductDetailPage = () => {
       </div>
 
       <div className="bg-gray-100 py-2">
-        <h1 className="text-xl text-gray-700 px-5 font-medium">You may also like</h1>
+        <h1 className="text-xl text-gray-700 px-5 font-medium">
+          You may also like
+        </h1>
         <Product />
       </div>
     </div>

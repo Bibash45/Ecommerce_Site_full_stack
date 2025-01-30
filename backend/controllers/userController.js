@@ -256,3 +256,29 @@ exports.userDetails = async (req, res) => {
   }
   return res.status(200).json(user);
 };
+
+exports.updateUser = async (req, res) => {
+  const { name, email, address } = req.body;
+  console.log(req.file);
+  try {
+    let user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(400).json({ error: "User not found in our system" });
+    }
+    user.name = name;
+    user.email = email;
+    user.address = address;
+    if (req.file) {
+      user.image = req.file.path;
+    }
+    user.save();
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+    });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Error updating user" });
+  }
+};
