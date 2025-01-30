@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { useGetMyOrdersQuery } from "../../features/orderApiSlice";
 import { format } from "date-fns";
 import { useGetMyWishlistQuery } from "../../features/wishlistApiSlice";
 import { useUpdateUserMutation } from "../../features/userApiSlice"; // FIXED: Correct mutation
+import { setCredentials } from "../../features/authSlice";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth || {});
   const { token } = userInfo || {};
 
@@ -42,7 +44,26 @@ const ProfilePage = () => {
 
   const handleSave = async () => {
     try {
-      await updateUser({userId:userInfo.user._id, token, ...updatedDetails }).unwrap();
+      const response = await updateUser({
+        userId: userInfo.user._id,
+        token,
+        ...updatedDetails,
+      }).unwrap();
+      console.log();
+
+      dispatch(
+        setCredentials({
+          token: token,
+          user: {
+            name: response.name,
+            role: response.role,
+            email: response.email,
+            address: response.address,
+            _id: response._id,
+            image: response.image,
+          },
+        })
+      );
       setIsEditing(false);
     } catch (error) {
       console.error("Update failed", error);
@@ -127,7 +148,7 @@ const ProfilePage = () => {
                 {
                   label: "Address",
                   name: "address",
-                  value: updatedDetails.address || "Please add an address !!",
+                  value: updatedDetails?.address,
                 },
               ].map((detail) => (
                 <div
@@ -140,11 +161,14 @@ const ProfilePage = () => {
                       type="text"
                       name={detail.name}
                       value={detail.value}
+                      placeholder="Please fill a address"
                       onChange={handleInputChange}
                       className="border border-gray-300 rounded-md px-4 py-1 text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                     />
                   ) : (
-                    <p className="text-gray-800 font-medium">{detail.value}</p>
+                    <p className="text-gray-800 font-medium">
+                      {detail.value || "please fill the field"}
+                    </p>
                   )}
                 </div>
               ))}

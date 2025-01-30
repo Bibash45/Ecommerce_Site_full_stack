@@ -15,22 +15,13 @@ const Footer = () => {
             <h6 className="text-xl font-semibold">Our Locations</h6>
             <ul className="mt-4 space-y-2">
               <li>
-                <Link to="/nepal" className="hover:text-indigo-200 transition">
-                  Nepal
-                </Link>
+                <p>Nepal</p>
               </li>
               <li>
-                <Link to="/india" className="hover:text-indigo-200 transition">
-                  India
-                </Link>
+                <p>India</p>
               </li>
               <li>
-                <Link
-                  to="/bangladesh"
-                  className="hover:text-indigo-200 transition"
-                >
-                  Bangladesh
-                </Link>
+                <p>Bangladesh</p>
               </li>
             </ul>
           </div>

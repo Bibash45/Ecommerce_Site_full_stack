@@ -272,10 +272,7 @@ exports.updateUser = async (req, res) => {
       user.image = req.file.path;
     }
     user.save();
-    return res.status(200).json({
-      success: true,
-      message: "User updated successfully",
-    });
+    return res.status(201).json(user);
   } catch (error) {
     return res
       .status(400)

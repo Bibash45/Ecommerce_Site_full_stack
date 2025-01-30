@@ -42,7 +42,6 @@ const ProductDetailPage = () => {
   const [createWishlist, { isLoading: createWishlistLoading }] =
     useCreateWishlistMutation();
 
-
   const [deleteWishlist, { isLoading: deleteWishlistLoading }] =
     useDeleteMyWishlistMutation();
 
@@ -192,12 +191,13 @@ const ProductDetailPage = () => {
                 Add to Cart
               </button>
               {checkWishlistData() ? (
-                <button
-                  onClick={removeFromWishlist}
-                  className="bg-gradient-to-r from-gray-400 to-gray-600 flex gap-2 items-center text-white px-6 py-2 rounded-md"
-                >
-                  Clear Favourite
-                </button>
+                // <button
+                //   onClick={removeFromWishlist}
+                //   className="bg-gradient-to-r from-gray-400 to-gray-600 flex gap-2 items-center text-white px-6 py-2 rounded-md"
+                // >
+                //   Clear Favourite
+                // </button>
+                ""
               ) : (
                 <button
                   onClick={addToWishlist}
